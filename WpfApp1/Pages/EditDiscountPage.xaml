@@ -1,0 +1,50 @@
+﻿<Page x:Class="WpfApp1.Pages.EditDiscountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Редактировать скидку">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Выбор растения -->
+        <TextBlock Text="Растение:" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
+        <ComboBox x:Name="cbPlants" DisplayMemberPath="name" SelectedValuePath="id"
+                  ItemsSource="{Binding}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10"/>
+
+        <!-- Процент скидки -->
+        <TextBlock Text="Процент скидки:" Grid.Row="1" Grid.Column="0" FontWeight="Bold"/>
+        <TextBox x:Name="tbDiscountPercent" Grid.Row="1" Grid.Column="1" Margin="0,0,0,10"/>
+
+        <!-- Дата начала -->
+        <TextBlock Text="Дата начала:" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+        <DatePicker x:Name="dpStart" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10"/>
+
+        <!-- Дата окончания -->
+        <TextBlock Text="Дата окончания:" Grid.Row="3" Grid.Column="0" FontWeight="Bold"/>
+        <DatePicker x:Name="dpEnd" Grid.Row="3" Grid.Column="1" Margin="0,0,0,10"/>
+
+        <!-- Цвет метки -->
+        <TextBlock Text="Цвет метки:" Grid.Row="4" Grid.Column="0" FontWeight="Bold"/>
+        <TextBox x:Name="tbColor" Grid.Row="4" Grid.Column="1" Margin="0,0,0,10" Text="#FFD700"/>
+
+        <!-- Описание -->
+        <TextBlock Text="Описание:" Grid.Row="5" Grid.Column="0" FontWeight="Bold"/>
+        <TextBox x:Name="tbDescription" Grid.Row="5" Grid.Column="1" Margin="0,0,0,10" Height="60" AcceptsReturn="True" TextWrapping="Wrap"/>
+
+        <!-- Кнопки -->
+        <Button Content="Сохранить" Grid.Row="6" Grid.Column="0" Background="Green" Foreground="White" Click="Save_Click" Margin="0,0,10,0"/>
+        <Button Content="Отмена" Grid.Row="6" Grid.Column="1" Background="Gray" Foreground="White" Click="Cancel_Click"/>
+    </Grid>
+</Page>

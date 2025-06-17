@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4df9d81ba97c4a5fada4beaef390ee27" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Admins" Width="1.5" PointX="3" PointY="47.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.CareHistory" Width="1.5" PointX="8.25" PointY="25.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Cart" Width="1.5" PointX="3" PointY="24.875" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Categories" Width="1.5" PointX="3.75" PointY="22.25" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Discounts" Width="1.5" PointX="8.25" PointY="43.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Fertilization" Width="1.5" PointX="8.25" PointY="28.875" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Fertilizers" Width="1.5" PointX="6" PointY="30.25" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Genres" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Inventory" Width="1.5" PointX="8.25" PointY="49.875" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Lighting" Width="1.5" PointX="8.25" PointY="41" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.OrderDetails" Width="1.5" PointX="8.25" PointY="37.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Orders" Width="1.5" PointX="3" PointY="51" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Photos" Width="1.5" PointX="8.25" PointY="47.25" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.PlantLocations" Width="1.5" PointX="11.25" PointY="34.125" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Plants" Width="1.5" PointX="6" PointY="23.5" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Reminders" Width="1.5" PointX="11.25" PointY="20.625" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Rooms" Width="1.5" PointX="3" PointY="44.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Temperature" Width="1.5" PointX="8.25" PointY="32.25" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.UserPlants" Width="1.5" PointX="11.25" PointY="24.75" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Users" Width="1.5" PointX="0.75" PointY="24.375" />
+        <EntityTypeShape EntityType="OrganayzerRasteniyModel.Watering" Width="1.5" PointX="8.25" PointY="19.875" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Admins__admin_id__5DCAEF64" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__CareHisto__plant__4222D4EF" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Cart__plant_id__7849DB76" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Cart__user_id__7755B73D" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Plants__category__29572725" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Discounts__plant__3E1D39E1" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Fertiliza__ferti__3C69FB99" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Fertiliza__plant__3B75D760" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Inventory__Plant__70A8B9AE" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Lighting__plant___47DBAE45" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__OrderDeta__order__690797E6" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__OrderDeta__plant__69FBBC1F" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Orders__user_id__662B2B3B" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Photos__plant_id__44FF419A" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__PlantLoca__plant__32E0915F" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__PlantLoca__room___33D4B598" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Plants__user_id__2A4B4B5E" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Reminders__plant__10216507" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Temperatu__plant__4AB81AF0" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__UserPlant__plant__0A688BB1" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Watering__plant___36B12243" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Reminders__user___0F2D40CE" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__Rooms__user_id__300424B4" />
+        <AssociationConnector Association="OrganayzerRasteniyModel.FK__UserPlant__user___09746778" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

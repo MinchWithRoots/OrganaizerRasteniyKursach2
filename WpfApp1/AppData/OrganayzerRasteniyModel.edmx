@@ -1,0 +1,1569 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище OrganayzerRasteniyModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="admin_id" Type="int" />
+          <Property Name="login" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CareHistory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="action" Type="nvarchar" MaxLength="100" />
+          <Property Name="date" Type="date" />
+          <Property Name="comments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="plant_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="added_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Discounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" Nullable="false" />
+          <Property Name="discount_percent" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+          <Property Name="start_date" Type="date" Nullable="false" />
+          <Property Name="end_date" Type="date" Nullable="false" />
+          <Property Name="color" Type="nvarchar" MaxLength="50" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="created_at" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Fertilization">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="fertilizer_id" Type="int" />
+          <Property Name="fertilization_date" Type="date" />
+          <Property Name="dosage_ml" Type="int" />
+        </EntityType>
+        <EntityType Name="Fertilizers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="composition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenreName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlantID" Type="int" Nullable="false" />
+          <Property Name="WarehouseID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lighting">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="level" Type="nvarchar" MaxLength="50" />
+          <Property Name="uses_lights" Type="bit" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="order_id" />
+            <PropertyRef Name="plant_id" />
+          </Key>
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="plant_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="order_date" Type="datetime" Nullable="false" />
+          <Property Name="total_amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="shipping_address" Type="nvarchar" MaxLength="255" />
+          <Property Name="payment_method" Type="nvarchar" MaxLength="50" />
+          <Property Name="delivery_method" Type="nvarchar" MaxLength="50" />
+          <Property Name="comment" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Photos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="photo_path" Type="nvarchar" MaxLength="255" />
+          <Property Name="upload_date" Type="date" />
+        </EntityType>
+        <EntityType Name="PlantLocations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="room_id" Type="int" />
+          <Property Name="window_position" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Plants">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="planting_date" Type="date" />
+          <Property Name="category_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Reminders">
+          <Key>
+            <PropertyRef Name="reminder_id" />
+          </Key>
+          <Property Name="reminder_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="reminder_type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="reminder_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="frequency" Type="int" Nullable="false" />
+          <Property Name="message" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="is_active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="has_south_windows" Type="bit" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Temperature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="min_temp" Type="int" />
+          <Property Name="max_temp" Type="int" />
+        </EntityType>
+        <EntityType Name="UserPlants">
+          <Key>
+            <PropertyRef Name="user_plant_id" />
+          </Key>
+          <Property Name="user_plant_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="plant_id" Type="int" Nullable="false" />
+          <Property Name="purchase_date" Type="datetime" Nullable="false" />
+          <Property Name="care_schedule" Type="nvarchar" MaxLength="255" />
+          <Property Name="last_care_date" Type="datetime" />
+          <Property Name="notes" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Watering">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="plant_id" Type="int" />
+          <Property Name="watering_date" Type="date" Nullable="false" />
+          <Property Name="amount_ml" Type="int" />
+        </EntityType>
+        <Association Name="FK__Admins__admin_id__5DCAEF64">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Admins" Type="Self.Admins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CareHisto__plant__4222D4EF">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="CareHistory" Type="Self.CareHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CareHistory">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__plant_id__7849DB76">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__user_id__7755B73D">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Discounts__plant__3E1D39E1">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Discounts" Type="Self.Discounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Discounts">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fertiliza__ferti__3C69FB99">
+          <End Role="Fertilizers" Type="Self.Fertilizers" Multiplicity="0..1" />
+          <End Role="Fertilization" Type="Self.Fertilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fertilizers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Fertilization">
+              <PropertyRef Name="fertilizer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fertiliza__plant__3B75D760">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Fertilization" Type="Self.Fertilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Fertilization">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Plant__70A8B9AE">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
+          <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="PlantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lighting__plant___47DBAE45">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Lighting" Type="Self.Lighting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lighting">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__order__690797E6">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__plant__69FBBC1F">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__user_id__662B2B3B">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Photos__plant_id__44FF419A">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Photos">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlantLoca__plant__32E0915F">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="PlantLocations" Type="Self.PlantLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PlantLocations">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlantLoca__room___33D4B598">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="PlantLocations" Type="Self.PlantLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PlantLocations">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Plants__category__29572725">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Plants" Type="Self.Plants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Plants">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Plants__user_id__2A4B4B5E">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Plants" Type="Self.Plants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Plants">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reminders__plant__10216507">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reminders">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reminders__user___0F2D40CE">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reminders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rooms__user_id__300424B4">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Temperatu__plant__4AB81AF0">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Temperature" Type="Self.Temperature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Temperature">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPlant__plant__0A688BB1">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
+          <End Role="UserPlants" Type="Self.UserPlants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserPlants">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPlant__user___09746778">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserPlants" Type="Self.UserPlants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserPlants">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Watering__plant___36B12243">
+          <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
+          <End Role="Watering" Type="Self.Watering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Watering">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище OrganayzerRasteniyModelContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CareHistory" EntityType="Self.CareHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Discounts" EntityType="Self.Discounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fertilization" EntityType="Self.Fertilization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fertilizers" EntityType="Self.Fertilizers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lighting" EntityType="Self.Lighting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlantLocations" EntityType="Self.PlantLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plants" EntityType="Self.Plants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reminders" EntityType="Self.Reminders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Temperature" EntityType="Self.Temperature" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPlants" EntityType="Self.UserPlants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Watering" EntityType="Self.Watering" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Admins__admin_id__5DCAEF64" Association="Self.FK__Admins__admin_id__5DCAEF64">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Admins" EntitySet="Admins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CareHisto__plant__4222D4EF" Association="Self.FK__CareHisto__plant__4222D4EF">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="CareHistory" EntitySet="CareHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__plant_id__7849DB76" Association="Self.FK__Cart__plant_id__7849DB76">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__user_id__7755B73D" Association="Self.FK__Cart__user_id__7755B73D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Discounts__plant__3E1D39E1" Association="Self.FK__Discounts__plant__3E1D39E1">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Discounts" EntitySet="Discounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fertiliza__ferti__3C69FB99" Association="Self.FK__Fertiliza__ferti__3C69FB99">
+            <End Role="Fertilizers" EntitySet="Fertilizers" />
+            <End Role="Fertilization" EntitySet="Fertilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fertiliza__plant__3B75D760" Association="Self.FK__Fertiliza__plant__3B75D760">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Fertilization" EntitySet="Fertilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Plant__70A8B9AE" Association="Self.FK__Inventory__Plant__70A8B9AE">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lighting__plant___47DBAE45" Association="Self.FK__Lighting__plant___47DBAE45">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Lighting" EntitySet="Lighting" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__order__690797E6" Association="Self.FK__OrderDeta__order__690797E6">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__plant__69FBBC1F" Association="Self.FK__OrderDeta__plant__69FBBC1F">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__user_id__662B2B3B" Association="Self.FK__Orders__user_id__662B2B3B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Photos__plant_id__44FF419A" Association="Self.FK__Photos__plant_id__44FF419A">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Photos" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlantLoca__plant__32E0915F" Association="Self.FK__PlantLoca__plant__32E0915F">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="PlantLocations" EntitySet="PlantLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlantLoca__room___33D4B598" Association="Self.FK__PlantLoca__room___33D4B598">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="PlantLocations" EntitySet="PlantLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Plants__category__29572725" Association="Self.FK__Plants__category__29572725">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Plants" EntitySet="Plants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Plants__user_id__2A4B4B5E" Association="Self.FK__Plants__user_id__2A4B4B5E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Plants" EntitySet="Plants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reminders__plant__10216507" Association="Self.FK__Reminders__plant__10216507">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Reminders" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reminders__user___0F2D40CE" Association="Self.FK__Reminders__user___0F2D40CE">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reminders" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rooms__user_id__300424B4" Association="Self.FK__Rooms__user_id__300424B4">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Temperatu__plant__4AB81AF0" Association="Self.FK__Temperatu__plant__4AB81AF0">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Temperature" EntitySet="Temperature" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPlant__plant__0A688BB1" Association="Self.FK__UserPlant__plant__0A688BB1">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="UserPlants" EntitySet="UserPlants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPlant__user___09746778" Association="Self.FK__UserPlant__user___09746778">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPlants" EntitySet="UserPlants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Watering__plant___36B12243" Association="Self.FK__Watering__plant___36B12243">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Watering" EntitySet="Watering" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OrganayzerRasteniyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OrganayzerRasteniyEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="OrganayzerRasteniyModel.Admins" />
+          <EntitySet Name="CareHistory" EntityType="OrganayzerRasteniyModel.CareHistory" />
+          <EntitySet Name="Cart" EntityType="OrganayzerRasteniyModel.Cart" />
+          <EntitySet Name="Categories" EntityType="OrganayzerRasteniyModel.Categories" />
+          <EntitySet Name="Discounts" EntityType="OrganayzerRasteniyModel.Discounts" />
+          <EntitySet Name="Fertilization" EntityType="OrganayzerRasteniyModel.Fertilization" />
+          <EntitySet Name="Fertilizers" EntityType="OrganayzerRasteniyModel.Fertilizers" />
+          <EntitySet Name="Genres" EntityType="OrganayzerRasteniyModel.Genres" />
+          <EntitySet Name="Inventory" EntityType="OrganayzerRasteniyModel.Inventory" />
+          <EntitySet Name="Lighting" EntityType="OrganayzerRasteniyModel.Lighting" />
+          <EntitySet Name="OrderDetails" EntityType="OrganayzerRasteniyModel.OrderDetails" />
+          <EntitySet Name="Orders" EntityType="OrganayzerRasteniyModel.Orders" />
+          <EntitySet Name="Photos" EntityType="OrganayzerRasteniyModel.Photos" />
+          <EntitySet Name="PlantLocations" EntityType="OrganayzerRasteniyModel.PlantLocations" />
+          <EntitySet Name="Plants" EntityType="OrganayzerRasteniyModel.Plants" />
+          <EntitySet Name="Reminders" EntityType="OrganayzerRasteniyModel.Reminders" />
+          <EntitySet Name="Rooms" EntityType="OrganayzerRasteniyModel.Rooms" />
+          <EntitySet Name="Temperature" EntityType="OrganayzerRasteniyModel.Temperature" />
+          <EntitySet Name="UserPlants" EntityType="OrganayzerRasteniyModel.UserPlants" />
+          <EntitySet Name="Users" EntityType="OrganayzerRasteniyModel.Users" />
+          <EntitySet Name="Watering" EntityType="OrganayzerRasteniyModel.Watering" />
+          <AssociationSet Name="FK__Admins__admin_id__5DCAEF64" Association="OrganayzerRasteniyModel.FK__Admins__admin_id__5DCAEF64">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Admins" EntitySet="Admins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CareHisto__plant__4222D4EF" Association="OrganayzerRasteniyModel.FK__CareHisto__plant__4222D4EF">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="CareHistory" EntitySet="CareHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__plant_id__7849DB76" Association="OrganayzerRasteniyModel.FK__Cart__plant_id__7849DB76">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cart__user_id__7755B73D" Association="OrganayzerRasteniyModel.FK__Cart__user_id__7755B73D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Plants__category__29572725" Association="OrganayzerRasteniyModel.FK__Plants__category__29572725">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Plants" EntitySet="Plants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Discounts__plant__3E1D39E1" Association="OrganayzerRasteniyModel.FK__Discounts__plant__3E1D39E1">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Discounts" EntitySet="Discounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fertiliza__ferti__3C69FB99" Association="OrganayzerRasteniyModel.FK__Fertiliza__ferti__3C69FB99">
+            <End Role="Fertilizers" EntitySet="Fertilizers" />
+            <End Role="Fertilization" EntitySet="Fertilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fertiliza__plant__3B75D760" Association="OrganayzerRasteniyModel.FK__Fertiliza__plant__3B75D760">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Fertilization" EntitySet="Fertilization" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Plant__70A8B9AE" Association="OrganayzerRasteniyModel.FK__Inventory__Plant__70A8B9AE">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lighting__plant___47DBAE45" Association="OrganayzerRasteniyModel.FK__Lighting__plant___47DBAE45">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Lighting" EntitySet="Lighting" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__order__690797E6" Association="OrganayzerRasteniyModel.FK__OrderDeta__order__690797E6">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__plant__69FBBC1F" Association="OrganayzerRasteniyModel.FK__OrderDeta__plant__69FBBC1F">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__user_id__662B2B3B" Association="OrganayzerRasteniyModel.FK__Orders__user_id__662B2B3B">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Photos__plant_id__44FF419A" Association="OrganayzerRasteniyModel.FK__Photos__plant_id__44FF419A">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Photos" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlantLoca__plant__32E0915F" Association="OrganayzerRasteniyModel.FK__PlantLoca__plant__32E0915F">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="PlantLocations" EntitySet="PlantLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PlantLoca__room___33D4B598" Association="OrganayzerRasteniyModel.FK__PlantLoca__room___33D4B598">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="PlantLocations" EntitySet="PlantLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Plants__user_id__2A4B4B5E" Association="OrganayzerRasteniyModel.FK__Plants__user_id__2A4B4B5E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Plants" EntitySet="Plants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reminders__plant__10216507" Association="OrganayzerRasteniyModel.FK__Reminders__plant__10216507">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Reminders" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Temperatu__plant__4AB81AF0" Association="OrganayzerRasteniyModel.FK__Temperatu__plant__4AB81AF0">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Temperature" EntitySet="Temperature" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPlant__plant__0A688BB1" Association="OrganayzerRasteniyModel.FK__UserPlant__plant__0A688BB1">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="UserPlants" EntitySet="UserPlants" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Watering__plant___36B12243" Association="OrganayzerRasteniyModel.FK__Watering__plant___36B12243">
+            <End Role="Plants" EntitySet="Plants" />
+            <End Role="Watering" EntitySet="Watering" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reminders__user___0F2D40CE" Association="OrganayzerRasteniyModel.FK__Reminders__user___0F2D40CE">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Reminders" EntitySet="Reminders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rooms__user_id__300424B4" Association="OrganayzerRasteniyModel.FK__Rooms__user_id__300424B4">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPlant__user___09746778" Association="OrganayzerRasteniyModel.FK__UserPlant__user___09746778">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPlants" EntitySet="UserPlants" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="admin_id" Type="Int32" />
+          <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Admins__admin_id__5DCAEF64" FromRole="Admins" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="CareHistory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="action" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__CareHisto__plant__4222D4EF" FromRole="CareHistory" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="cart_id" />
+          </Key>
+          <Property Name="cart_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="plant_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="added_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Cart__plant_id__7849DB76" FromRole="Cart" ToRole="Plants" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Cart__user_id__7755B73D" FromRole="Cart" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Plants__category__29572725" FromRole="Categories" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Discounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" Nullable="false" />
+          <Property Name="discount_percent" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Discounts__plant__3E1D39E1" FromRole="Discounts" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Fertilization">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="fertilizer_id" Type="Int32" />
+          <Property Name="fertilization_date" Type="DateTime" Precision="0" />
+          <Property Name="dosage_ml" Type="Int32" />
+          <NavigationProperty Name="Fertilizers" Relationship="OrganayzerRasteniyModel.FK__Fertiliza__ferti__3C69FB99" FromRole="Fertilization" ToRole="Fertilizers" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Fertiliza__plant__3B75D760" FromRole="Fertilization" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Fertilizers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="composition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fertilization" Relationship="OrganayzerRasteniyModel.FK__Fertiliza__ferti__3C69FB99" FromRole="Fertilizers" ToRole="Fertilization" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="InventoryID" />
+          </Key>
+          <Property Name="InventoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlantID" Type="Int32" Nullable="false" />
+          <Property Name="WarehouseID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Inventory__Plant__70A8B9AE" FromRole="Inventory" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Lighting">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uses_lights" Type="Boolean" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Lighting__plant___47DBAE45" FromRole="Lighting" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="order_id" />
+            <PropertyRef Name="plant_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="plant_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Orders" Relationship="OrganayzerRasteniyModel.FK__OrderDeta__order__690797E6" FromRole="OrderDetails" ToRole="Orders" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__OrderDeta__plant__69FBBC1F" FromRole="OrderDetails" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="order_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="total_amount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="shipping_address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="delivery_method" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderDetails" Relationship="OrganayzerRasteniyModel.FK__OrderDeta__order__690797E6" FromRole="Orders" ToRole="OrderDetails" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Orders__user_id__662B2B3B" FromRole="Orders" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Photos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="photo_path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="upload_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Photos__plant_id__44FF419A" FromRole="Photos" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="PlantLocations">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="room_id" Type="Int32" />
+          <Property Name="window_position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__PlantLoca__plant__32E0915F" FromRole="PlantLocations" ToRole="Plants" />
+          <NavigationProperty Name="Rooms" Relationship="OrganayzerRasteniyModel.FK__PlantLoca__room___33D4B598" FromRole="PlantLocations" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="Plants">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="planting_date" Type="DateTime" Precision="0" />
+          <Property Name="category_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="CareHistory" Relationship="OrganayzerRasteniyModel.FK__CareHisto__plant__4222D4EF" FromRole="Plants" ToRole="CareHistory" />
+          <NavigationProperty Name="Cart" Relationship="OrganayzerRasteniyModel.FK__Cart__plant_id__7849DB76" FromRole="Plants" ToRole="Cart" />
+          <NavigationProperty Name="Categories" Relationship="OrganayzerRasteniyModel.FK__Plants__category__29572725" FromRole="Plants" ToRole="Categories" />
+          <NavigationProperty Name="Discounts" Relationship="OrganayzerRasteniyModel.FK__Discounts__plant__3E1D39E1" FromRole="Plants" ToRole="Discounts" />
+          <NavigationProperty Name="Fertilization" Relationship="OrganayzerRasteniyModel.FK__Fertiliza__plant__3B75D760" FromRole="Plants" ToRole="Fertilization" />
+          <NavigationProperty Name="Inventory" Relationship="OrganayzerRasteniyModel.FK__Inventory__Plant__70A8B9AE" FromRole="Plants" ToRole="Inventory" />
+          <NavigationProperty Name="Lighting" Relationship="OrganayzerRasteniyModel.FK__Lighting__plant___47DBAE45" FromRole="Plants" ToRole="Lighting" />
+          <NavigationProperty Name="OrderDetails" Relationship="OrganayzerRasteniyModel.FK__OrderDeta__plant__69FBBC1F" FromRole="Plants" ToRole="OrderDetails" />
+          <NavigationProperty Name="Photos" Relationship="OrganayzerRasteniyModel.FK__Photos__plant_id__44FF419A" FromRole="Plants" ToRole="Photos" />
+          <NavigationProperty Name="PlantLocations" Relationship="OrganayzerRasteniyModel.FK__PlantLoca__plant__32E0915F" FromRole="Plants" ToRole="PlantLocations" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Plants__user_id__2A4B4B5E" FromRole="Plants" ToRole="Users" />
+          <NavigationProperty Name="Reminders" Relationship="OrganayzerRasteniyModel.FK__Reminders__plant__10216507" FromRole="Plants" ToRole="Reminders" />
+          <NavigationProperty Name="Temperature" Relationship="OrganayzerRasteniyModel.FK__Temperatu__plant__4AB81AF0" FromRole="Plants" ToRole="Temperature" />
+          <NavigationProperty Name="UserPlants" Relationship="OrganayzerRasteniyModel.FK__UserPlant__plant__0A688BB1" FromRole="Plants" ToRole="UserPlants" />
+          <NavigationProperty Name="Watering" Relationship="OrganayzerRasteniyModel.FK__Watering__plant___36B12243" FromRole="Plants" ToRole="Watering" />
+        </EntityType>
+        <EntityType Name="Reminders">
+          <Key>
+            <PropertyRef Name="reminder_id" />
+          </Key>
+          <Property Name="reminder_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="reminder_type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="reminder_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="frequency" Type="Int32" Nullable="false" />
+          <Property Name="message" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="is_active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Reminders__plant__10216507" FromRole="Reminders" ToRole="Plants" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Reminders__user___0F2D40CE" FromRole="Reminders" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="has_south_windows" Type="Boolean" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="PlantLocations" Relationship="OrganayzerRasteniyModel.FK__PlantLoca__room___33D4B598" FromRole="Rooms" ToRole="PlantLocations" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Rooms__user_id__300424B4" FromRole="Rooms" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Temperature">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="min_temp" Type="Int32" />
+          <Property Name="max_temp" Type="Int32" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Temperatu__plant__4AB81AF0" FromRole="Temperature" ToRole="Plants" />
+        </EntityType>
+        <EntityType Name="UserPlants">
+          <Key>
+            <PropertyRef Name="user_plant_id" />
+          </Key>
+          <Property Name="user_plant_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="plant_id" Type="Int32" Nullable="false" />
+          <Property Name="purchase_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="care_schedule" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="last_care_date" Type="DateTime" Precision="3" />
+          <Property Name="notes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__UserPlant__plant__0A688BB1" FromRole="UserPlants" ToRole="Plants" />
+          <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__UserPlant__user___09746778" FromRole="UserPlants" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Admins" Relationship="OrganayzerRasteniyModel.FK__Admins__admin_id__5DCAEF64" FromRole="Users" ToRole="Admins" />
+          <NavigationProperty Name="Cart" Relationship="OrganayzerRasteniyModel.FK__Cart__user_id__7755B73D" FromRole="Users" ToRole="Cart" />
+          <NavigationProperty Name="Orders" Relationship="OrganayzerRasteniyModel.FK__Orders__user_id__662B2B3B" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Plants__user_id__2A4B4B5E" FromRole="Users" ToRole="Plants" />
+          <NavigationProperty Name="Reminders" Relationship="OrganayzerRasteniyModel.FK__Reminders__user___0F2D40CE" FromRole="Users" ToRole="Reminders" />
+          <NavigationProperty Name="Rooms" Relationship="OrganayzerRasteniyModel.FK__Rooms__user_id__300424B4" FromRole="Users" ToRole="Rooms" />
+          <NavigationProperty Name="UserPlants" Relationship="OrganayzerRasteniyModel.FK__UserPlant__user___09746778" FromRole="Users" ToRole="UserPlants" />
+        </EntityType>
+        <EntityType Name="Watering">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="plant_id" Type="Int32" />
+          <Property Name="watering_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="amount_ml" Type="Int32" />
+          <NavigationProperty Name="Plants" Relationship="OrganayzerRasteniyModel.FK__Watering__plant___36B12243" FromRole="Watering" ToRole="Plants" />
+        </EntityType>
+        <Association Name="FK__Admins__admin_id__5DCAEF64">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Admins" Role="Admins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Admins">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CareHisto__plant__4222D4EF">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.CareHistory" Role="CareHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CareHistory">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__plant_id__7849DB76">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cart__user_id__7755B73D">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Plants__category__29572725">
+          <End Type="OrganayzerRasteniyModel.Categories" Role="Categories" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Plants">
+              <PropertyRef Name="category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Discounts__plant__3E1D39E1">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="OrganayzerRasteniyModel.Discounts" Role="Discounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Discounts">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fertiliza__ferti__3C69FB99">
+          <End Type="OrganayzerRasteniyModel.Fertilizers" Role="Fertilizers" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Fertilization" Role="Fertilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fertilizers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Fertilization">
+              <PropertyRef Name="fertilizer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fertiliza__plant__3B75D760">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Fertilization" Role="Fertilization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Fertilization">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Plant__70A8B9AE">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.Inventory" Role="Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="PlantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lighting__plant___47DBAE45">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Lighting" Role="Lighting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Lighting">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__order__690797E6">
+          <End Type="OrganayzerRasteniyModel.Orders" Role="Orders" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__plant__69FBBC1F">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__user_id__662B2B3B">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Photos__plant_id__44FF419A">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Photos" Role="Photos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Photos">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlantLoca__plant__32E0915F">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.PlantLocations" Role="PlantLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PlantLocations">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PlantLoca__room___33D4B598">
+          <End Type="OrganayzerRasteniyModel.Rooms" Role="Rooms" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.PlantLocations" Role="PlantLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PlantLocations">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Plants__user_id__2A4B4B5E">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Plants">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reminders__plant__10216507">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Reminders" Role="Reminders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reminders">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Temperatu__plant__4AB81AF0">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Temperature" Role="Temperature" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Temperature">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPlant__plant__0A688BB1">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.UserPlants" Role="UserPlants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserPlants">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Watering__plant___36B12243">
+          <End Type="OrganayzerRasteniyModel.Plants" Role="Plants" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Watering" Role="Watering" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Watering">
+              <PropertyRef Name="plant_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reminders__user___0F2D40CE">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.Reminders" Role="Reminders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reminders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rooms__user_id__300424B4">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="OrganayzerRasteniyModel.Rooms" Role="Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPlant__user___09746778">
+          <End Type="OrganayzerRasteniyModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="OrganayzerRasteniyModel.UserPlants" Role="UserPlants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserPlants">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище OrganayzerRasteniyModelContainer" CdmEntityContainer="OrganayzerRasteniyEntities1">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Admins">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CareHistory">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.CareHistory">
+              <MappingFragment StoreEntitySet="CareHistory">
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cart">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="added_date" ColumnName="added_date" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="cart_id" ColumnName="cart_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Categories">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Discounts">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Discounts">
+              <MappingFragment StoreEntitySet="Discounts">
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fertilization">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Fertilization">
+              <MappingFragment StoreEntitySet="Fertilization">
+                <ScalarProperty Name="dosage_ml" ColumnName="dosage_ml" />
+                <ScalarProperty Name="fertilization_date" ColumnName="fertilization_date" />
+                <ScalarProperty Name="fertilizer_id" ColumnName="fertilizer_id" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fertilizers">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Fertilizers">
+              <MappingFragment StoreEntitySet="Fertilizers">
+                <ScalarProperty Name="composition" ColumnName="composition" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Genres">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventory">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="PlantID" ColumnName="PlantID" />
+                <ScalarProperty Name="InventoryID" ColumnName="InventoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lighting">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Lighting">
+              <MappingFragment StoreEntitySet="Lighting">
+                <ScalarProperty Name="uses_lights" ColumnName="uses_lights" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.OrderDetails">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="delivery_method" ColumnName="delivery_method" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="shipping_address" ColumnName="shipping_address" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Photos">
+              <MappingFragment StoreEntitySet="Photos">
+                <ScalarProperty Name="upload_date" ColumnName="upload_date" />
+                <ScalarProperty Name="photo_path" ColumnName="photo_path" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlantLocations">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.PlantLocations">
+              <MappingFragment StoreEntitySet="PlantLocations">
+                <ScalarProperty Name="window_position" ColumnName="window_position" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plants">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Plants">
+              <MappingFragment StoreEntitySet="Plants">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="category_id" ColumnName="category_id" />
+                <ScalarProperty Name="planting_date" ColumnName="planting_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reminders">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Reminders">
+              <MappingFragment StoreEntitySet="Reminders">
+                <ScalarProperty Name="is_active" ColumnName="is_active" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="frequency" ColumnName="frequency" />
+                <ScalarProperty Name="reminder_time" ColumnName="reminder_time" />
+                <ScalarProperty Name="reminder_type" ColumnName="reminder_type" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="reminder_id" ColumnName="reminder_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Rooms">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="has_south_windows" ColumnName="has_south_windows" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Temperature">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Temperature">
+              <MappingFragment StoreEntitySet="Temperature">
+                <ScalarProperty Name="max_temp" ColumnName="max_temp" />
+                <ScalarProperty Name="min_temp" ColumnName="min_temp" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPlants">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.UserPlants">
+              <MappingFragment StoreEntitySet="UserPlants">
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="last_care_date" ColumnName="last_care_date" />
+                <ScalarProperty Name="care_schedule" ColumnName="care_schedule" />
+                <ScalarProperty Name="purchase_date" ColumnName="purchase_date" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_plant_id" ColumnName="user_plant_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Watering">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Watering">
+              <MappingFragment StoreEntitySet="Watering">
+                <ScalarProperty Name="amount_ml" ColumnName="amount_ml" />
+                <ScalarProperty Name="watering_date" ColumnName="watering_date" />
+                <ScalarProperty Name="plant_id" ColumnName="plant_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
