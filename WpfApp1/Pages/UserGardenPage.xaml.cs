@@ -333,31 +333,43 @@ namespace WpfApp1.Pages
         private void DeleteUserPlant_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            if (button?.Tag == null) return;
+            var plantVm = button?.Tag as PlantViewItem;
+            if (plantVm == null) return;
 
-            dynamic item = button.Tag;
-            int userPlantId = item.Id;
-            string plantName = item.Name;
+            var result = MessageBox.Show(
+                $"Вы уверены, что хотите удалить растение «{plantVm.Name}» из вашего списка?",
+                "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            var result = MessageBox.Show($"Вы уверены, что хотите удалить растение '{plantName}'?",
-                                         "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes) return;
 
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                try
+                var ctx = AppConnect.OrganayzerRasteniyModel;
+
+                // вариант 1 — если UserPlants имеет PK = id ------------------
+                //var dbItem = ctx.UserPlants.Find(plantVm.UserPlantId);
+
+                //вариант 2 — если PK составной (user_id + plant_id):
+                var dbItem = ctx.UserPlants.FirstOrDefault(up =>
+                              up.user_id == App.CurrentUser.id &&
+                              up.plant_id == plantVm.Id);
+                
+
+                if (dbItem != null)
                 {
-                    var dbItem = AppConnect.OrganayzerRasteniyModel.UserPlants.Find(userPlantId);
-                    if (dbItem != null)
-                    {
-                        AppConnect.OrganayzerRasteniyModel.UserPlants.Remove(dbItem);
-                        AppConnect.OrganayzerRasteniyModel.SaveChanges();
-                        UpdateUserPlants();
-                    }
+                    ctx.UserPlants.Remove(dbItem);
+                    ctx.SaveChanges();
+                    UpdateUserPlants();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Ошибка при удалении растения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Запись не найдена в базе данных.");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при удалении: " + ex.Message,
+                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

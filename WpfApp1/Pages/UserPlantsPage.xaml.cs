@@ -4,10 +4,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using WpfApp1.AppData;
 
 namespace WpfApp1.Pages
 {
+    /// <summary>
+    /// Каталог растений (вид для пользователя).
+    /// Работает на C# 7.3, без nullable-reference-types.
+    /// </summary>
     public partial class UserPlantsPage : Page
     {
         public UserPlantsPage()
@@ -17,86 +22,83 @@ namespace WpfApp1.Pages
             UpdatePlants();
         }
 
+        /* ───────────────────── справочники ───────────────────── */
         private void LoadCategories()
         {
-            var categories = AppConnect.OrganayzerRasteniyModel.Categories.Select(c => c.name).ToList();
+            var categories = AppConnect.OrganayzerRasteniyModel.Categories
+                             .Select(c => c.name).ToList();
             categories.Insert(0, "Все категории");
+
             ComboFilter.ItemsSource = categories;
             ComboFilter.SelectedIndex = 0;
         }
 
+        /* ───────────────────── выборка каталога ───────────────────── */
         private void UpdatePlants()
         {
-            var plantsQuery = from p in AppConnect.OrganayzerRasteniyModel.Plants
-                              join c in AppConnect.OrganayzerRasteniyModel.Categories on p.category_id equals c.id into gj
-                              from subC in gj.DefaultIfEmpty()
-                              select new
-                              {
-                                  Id = p.id,
-                                  Name = p.name,
-                                  Description = p.description,
-                                  CategoryName = subC == null ? "Без категории" : subC.name,
-                                  Price = p.price,
-                              };
+            /* берём только позиции, у которых price IS NOT NULL  */
+            var plantsQuery =
+                from p in AppConnect.OrganayzerRasteniyModel.Plants
+                where p.price.HasValue
+                join c in AppConnect.OrganayzerRasteniyModel.Categories
+                     on p.category_id equals c.id into gj
+                from subC in gj.DefaultIfEmpty()
+                select new
+                {
+                    Id = p.id,
+                    Name = p.name,
+                    Description = p.description,
+                    CategoryName = subC == null ? "Без категории" : subC.name,
+                    Price = p.price
+                };
 
-            // Фильтрация по категории
+            /* ── фильтр по категории ── */
             string selectedCategory = ComboFilter.SelectedItem as string;
-            if (!string.IsNullOrEmpty(selectedCategory) && selectedCategory != "Все категории")
+            if (!string.IsNullOrEmpty(selectedCategory) &&
+                selectedCategory != "Все категории")
                 plantsQuery = plantsQuery.Where(p => p.CategoryName == selectedCategory);
 
-            // Поиск
+            /* ── поиск ── */
             string search = TextSearch.Text.ToLower();
             if (!string.IsNullOrEmpty(search))
-                plantsQuery = plantsQuery.Where(p => p.Name.ToLower().Contains(search) || p.Description.ToLower().Contains(search));
+                plantsQuery = plantsQuery.Where(p =>
+                               p.Name.ToLower().Contains(search) ||
+                               p.Description.ToLower().Contains(search));
 
-            // Сортировка
-            var selectedItem = ComboSort.SelectedItem as ComboBoxItem;
-            if (selectedItem != null)
+            /* ── сортировка ── */
+            var sortItem = ComboSort.SelectedItem as ComboBoxItem;
+            if (sortItem != null)
             {
-                string sortOption = selectedItem.Content.ToString();
-                switch (sortOption)
+                switch (sortItem.Content.ToString())
                 {
-                    case "Название А-Я":
-                        plantsQuery = plantsQuery.OrderBy(p => p.Name);
-                        break;
-                    case "Название Я-А":
-                        plantsQuery = plantsQuery.OrderByDescending(p => p.Name);
-                        break;
-                    case "Цена ↑":
-                        plantsQuery = plantsQuery.OrderBy(p => p.Price ?? 0);
-                        break;
-                    case "Цена ↓":
-                        plantsQuery = plantsQuery.OrderByDescending(p => p.Price ?? 0);
-                        break;
+                    case "Название А-Я": plantsQuery = plantsQuery.OrderBy(p => p.Name); break;
+                    case "Название Я-А": plantsQuery = plantsQuery.OrderByDescending(p => p.Name); break;
+                    case "Цена ↑": plantsQuery = plantsQuery.OrderBy(p => p.Price ?? 0); break;
+                    case "Цена ↓": plantsQuery = plantsQuery.OrderByDescending(p => p.Price ?? 0); break;
                 }
             }
 
             var plants = plantsQuery.ToList();
 
-            // Получаем активные скидки
-            var activeDiscounts = AppConnect.OrganayzerRasteniyModel.Discounts
-                .Where(d => d.start_date <= DateTime.Now && d.end_date >= DateTime.Now)
-                .ToList();
+            /* ── активные скидки ── */
+            var discounts = AppConnect.OrganayzerRasteniyModel.Discounts
+                            .Where(d => d.start_date <= DateTime.Now &&
+                                        d.end_date >= DateTime.Now)
+                            .ToList();
 
-            // Создаём список PlantViewItem
-            var plantViewItems = new List<dynamic>();
+            /* ── view-list ── */
+            var viewList = new List<dynamic>();
             foreach (var item in plants)
             {
-                var discount = activeDiscounts.FirstOrDefault(d => d.plant_id == item.Id);
-                decimal? discountedPrice = null;
-                bool hasActiveDiscount = false;
-                decimal discountPercent = 0;
-                string discountDescription = null;
+                var disc = discounts.FirstOrDefault(d => d.plant_id == item.Id);
 
-                if (discount != null && item.Price.HasValue)
-                {
-                    hasActiveDiscount = true;
-                    discountPercent = discount.discount_percent;
-                    discountedPrice = item.Price.Value * (1 - (decimal)(discountPercent / 100));
-                    discountDescription = discount.description;
-                }
+                bool hasDisc = disc != null;
+                decimal discPercent = hasDisc ? disc.discount_percent : 0;
+                decimal? newPrice = hasDisc
+                                      ? item.Price.Value * (1 - discPercent / 100m)
+                                      : (decimal?)null;
 
-                plantViewItems.Add(new
+                viewList.Add(new
                 {
                     Id = item.Id,
                     Name = item.Name,
@@ -104,91 +106,101 @@ namespace WpfApp1.Pages
                     CategoryName = item.CategoryName,
                     Price = item.Price,
                     PhotoPath = GetPhotoPath(item.Id),
-                    HasActiveDiscount = hasActiveDiscount,
-                    DiscountPercent = discountPercent,
-                    DiscountedPrice = discountedPrice,
-                    DiscountDescription = discountDescription
+                    HasActiveDiscount = hasDisc,
+                    DiscountPercent = discPercent,
+                    DiscountedPrice = newPrice,
+                    DiscountDescription = hasDisc ? disc.description : null
                 });
             }
 
-            ListPlants.ItemsSource = plantViewItems;
-            CountRecords.Text = $"Найдено записей: {plantViewItems.Count}";
+            ListPlants.ItemsSource = viewList;
+            CountRecords.Text = $"Найдено записей: {viewList.Count}";
         }
 
         private string GetPhotoPath(int plantId)
         {
             var photo = AppConnect.OrganayzerRasteniyModel.Photos
-                .Where(p => p.plant_id == plantId)
-                .OrderByDescending(p => p.upload_date)
-                .FirstOrDefault();
-            return photo?.photo_path ?? "/Images/no-image.png";
+                         .Where(p => p.plant_id == plantId)
+                         .OrderByDescending(p => p.upload_date)
+                         .FirstOrDefault();
+            return photo != null ? photo.photo_path : "/Images/no-image.png";
         }
 
-        // Обработчики событий
-        private void ComboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdatePlants();
-        }
+        /* ───────────────────── события UI ───────────────────── */
+        private void ComboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePlants();
+        private void ComboSort_SelectionChanged(object sender, RoutedEventArgs e) => UpdatePlants();
+        private void TextSearch_TextChanged(object sender, TextChangedEventArgs e) => UpdatePlants();
 
-        private void ComboSort_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            UpdatePlants();
-        }
-
-        private void TextSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdatePlants();
-        }
-
+        /* ───────────────────── добавление в корзину ───────────────────── */
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            if (button?.Tag == null) return;
+            var btn = sender as Button;
+            if (btn == null || btn.Tag == null) return;
+
+            dynamic vm = btn.Tag;        // объект из ItemsSource
+            int plantId = vm.Id;
+            string plantName = vm.Name;
+
+            var ctx = AppConnect.OrganayzerRasteniyModel;
 
             try
             {
-                dynamic item = button.Tag;
-                int plantId = item.Id;
-                string plantName = item.Name;
-
-                // Добавляем товар в корзину
-                var cartItem = new Cart
+                /* 1) проверяем товар */
+                var plant = ctx.Plants.FirstOrDefault(p => p.id == plantId);
+                if (plant == null || !plant.price.HasValue)
                 {
-                    user_id = App.CurrentUser.id,
-                    plant_id = plantId,
-                    quantity = 1,
-                    //added_date = DateTime.Now
-                };
+                    MessageBox.Show("Эта позиция недоступна для покупки.");
+                    return;
+                }
 
-                AppConnect.OrganayzerRasteniyModel.Cart.Add(cartItem);
-                AppConnect.OrganayzerRasteniyModel.SaveChanges();
-                MessageBox.Show($"Растение '{plantName}' добавлено в корзину.");
+                int userId = App.CurrentUser.id;
+
+                /* 2) ищем строку корзины */
+                var cartRow = ctx.Cart.FirstOrDefault(c =>
+                                c.user_id == userId &&
+                                c.plant_id == plantId);
+
+                if (cartRow == null)          // ещё нет — создаём
+                {
+                    cartRow = new Cart
+                    {
+                        user_id = userId,
+                        plant_id = plantId,
+                        quantity = 1,
+                        added_date = DateTime.Now  // обязательное поле даты
+                    };
+                    ctx.Cart.Add(cartRow);
+                }
+                else                           // есть — увеличиваем количество
+                {
+                    cartRow.quantity++;
+                }
+
+                ctx.SaveChanges();
+
+                MessageBox.Show($"«{plantName}» добавлен в корзину (кол-во: {cartRow.quantity}).",
+                                "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException dbEx)
+            {
+                string msg = dbEx.InnerException != null
+                           ? dbEx.InnerException.InnerException?.Message ?? dbEx.InnerException.Message
+                           : dbEx.Message;
+
+                MessageBox.Show("Не удалось добавить товар: " + msg,
+                                "Ошибка БД", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка добавления в корзину: {ex.Message}");
+                MessageBox.Show("Не удалось добавить товар: " + ex.Message,
+                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // Переходы на другие страницы
-        private void GoToCart_Click(object sender, MouseButtonEventArgs e)
-        {
-            NavigationService.Navigate(new CartPage());
-        }
-
-        private void GoToOrders_Click(object sender, MouseButtonEventArgs e)
-        {
-            //NavigationService.Navigate(new UserOrdersPage(App.CurrentUser.id));
-        }
-
-        private void GoToReminders_Click(object sender, MouseButtonEventArgs e)
-        {
-            //NavigationService.Navigate(new RemindersPage(App.CurrentUser.id));
-        }
-
-        private void GoToMyPlants_Click(object sender, MouseButtonEventArgs e)
-        {
-            NavigationService.Navigate(new UserGardenPage());
-        }
+        /* ───────────────────── навигация ───────────────────── */
+        private void GoToCart_Click(object sender, MouseButtonEventArgs e) => NavigationService.Navigate(new CartPage());
+        private void GoToOrders_Click(object sender, MouseButtonEventArgs e) { /* NavigationService.Navigate(new UserOrdersPage(...)); */ }
+        private void GoToReminders_Click(object sender, MouseButtonEventArgs e) { /* NavigationService.Navigate(new RemindersPage(...));  */ }
+        private void GoToMyPlants_Click(object sender, MouseButtonEventArgs e) => NavigationService.Navigate(new UserGardenPage());
     }
 }
