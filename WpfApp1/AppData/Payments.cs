@@ -12,9 +12,15 @@ namespace WpfApp1.AppData
     using System;
     using System.Collections.Generic;
     
-    public partial class Genres
+    public partial class Payments
     {
-        public int GenreID { get; set; }
-        public string GenreName { get; set; }
+        public int payment_id { get; set; }
+        public int order_id { get; set; }
+        public System.DateTime payment_date { get; set; }
+        public decimal amount { get; set; }
+        public string payment_method { get; set; }
+        public string status { get; set; }
+    
+        public virtual Orders Orders { get; set; }
     }
 }

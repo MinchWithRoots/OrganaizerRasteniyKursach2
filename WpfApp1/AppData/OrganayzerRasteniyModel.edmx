@@ -76,13 +76,6 @@
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="composition" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="Genres">
-          <Key>
-            <PropertyRef Name="GenreID" />
-          </Key>
-          <Property Name="GenreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="GenreName" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="Inventory">
           <Key>
             <PropertyRef Name="InventoryID" />
@@ -125,6 +118,17 @@
           <Property Name="payment_method" Type="nvarchar" MaxLength="50" />
           <Property Name="delivery_method" Type="nvarchar" MaxLength="50" />
           <Property Name="comment" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="payment_date" Type="datetime" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="payment_method" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="Photos">
           <Key>
@@ -219,7 +223,7 @@
           <Property Name="watering_date" Type="date" Nullable="false" />
           <Property Name="amount_ml" Type="int" />
         </EntityType>
-        <Association Name="FK__Admins__admin_id__5DCAEF64">
+        <Association Name="FK__Admins__admin_id__5AEE82B9">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Admins" Type="Self.Admins" Multiplicity="*" />
           <ReferentialConstraint>
@@ -231,7 +235,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CareHisto__plant__4222D4EF">
+        <Association Name="FK__CareHisto__plant__5BE2A6F2">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="CareHistory" Type="Self.CareHistory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -243,7 +247,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cart__plant_id__7849DB76">
+        <Association Name="FK__Cart__plant_id__5CD6CB2B">
           <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -255,7 +259,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Cart__user_id__7755B73D">
+        <Association Name="FK__Cart__user_id__5DCAEF64">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
           <ReferentialConstraint>
@@ -267,7 +271,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Discounts__plant__3E1D39E1">
+        <Association Name="FK__Discounts__plant__5EBF139D">
           <End Role="Plants" Type="Self.Plants" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -281,7 +285,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fertiliza__ferti__3C69FB99">
+        <Association Name="FK__Fertiliza__ferti__5FB337D6">
           <End Role="Fertilizers" Type="Self.Fertilizers" Multiplicity="0..1" />
           <End Role="Fertilization" Type="Self.Fertilization" Multiplicity="*" />
           <ReferentialConstraint>
@@ -293,7 +297,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fertiliza__plant__3B75D760">
+        <Association Name="FK__Fertiliza__plant__60A75C0F">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Fertilization" Type="Self.Fertilization" Multiplicity="*" />
           <ReferentialConstraint>
@@ -305,7 +309,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Inventory__Plant__70A8B9AE">
+        <Association Name="FK__Inventory__Plant__619B8048">
           <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
           <End Role="Inventory" Type="Self.Inventory" Multiplicity="*" />
           <ReferentialConstraint>
@@ -317,7 +321,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Lighting__plant___47DBAE45">
+        <Association Name="FK__Lighting__plant___6383C8BA">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Lighting" Type="Self.Lighting" Multiplicity="*" />
           <ReferentialConstraint>
@@ -329,7 +333,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__order__690797E6">
+        <Association Name="FK__OrderDeta__order__6477ECF3">
           <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -341,7 +345,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__plant__69FBBC1F">
+        <Association Name="FK__OrderDeta__plant__656C112C">
           <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -353,7 +357,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__user_id__662B2B3B">
+        <Association Name="FK__Orders__user_id__66603565">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -365,7 +369,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Photos__plant_id__44FF419A">
+        <Association Name="FK__Photos__plant_id__6754599E">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
           <ReferentialConstraint>
@@ -377,7 +381,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlantLoca__plant__32E0915F">
+        <Association Name="FK__PlantLoca__plant__68487DD7">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="PlantLocations" Type="Self.PlantLocations" Multiplicity="*" />
           <ReferentialConstraint>
@@ -389,7 +393,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PlantLoca__room___33D4B598">
+        <Association Name="FK__PlantLoca__room___693CA210">
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
           <End Role="PlantLocations" Type="Self.PlantLocations" Multiplicity="*" />
           <ReferentialConstraint>
@@ -401,7 +405,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Plants__category__29572725">
+        <Association Name="FK__Plants__category__6A30C649">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Plants" Type="Self.Plants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -413,7 +417,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Plants__user_id__2A4B4B5E">
+        <Association Name="FK__Plants__user_id__6B24EA82">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Plants" Type="Self.Plants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -425,7 +429,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reminders__plant__10216507">
+        <Association Name="FK__Reminders__plant__6C190EBB">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -437,7 +441,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reminders__user___0F2D40CE">
+        <Association Name="FK__Reminders__user___6D0D32F4">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Reminders" Type="Self.Reminders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -449,7 +453,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Rooms__user_id__300424B4">
+        <Association Name="FK__Rooms__user_id__6E01572D">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
           <ReferentialConstraint>
@@ -461,7 +465,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Temperatu__plant__4AB81AF0">
+        <Association Name="FK__Temperatu__plant__6EF57B66">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Temperature" Type="Self.Temperature" Multiplicity="*" />
           <ReferentialConstraint>
@@ -473,7 +477,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserPlant__plant__0A688BB1">
+        <Association Name="FK__UserPlant__plant__6FE99F9F">
           <End Role="Plants" Type="Self.Plants" Multiplicity="1" />
           <End Role="UserPlants" Type="Self.UserPlants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -485,7 +489,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserPlant__user___09746778">
+        <Association Name="FK__UserPlant__user___70DDC3D8">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserPlants" Type="Self.UserPlants" Multiplicity="*" />
           <ReferentialConstraint>
@@ -497,7 +501,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Watering__plant___36B12243">
+        <Association Name="FK__Watering__plant___71D1E811">
           <End Role="Plants" Type="Self.Plants" Multiplicity="0..1" />
           <End Role="Watering" Type="Self.Watering" Multiplicity="*" />
           <ReferentialConstraint>
@@ -509,6 +513,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payments_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище OrganayzerRasteniyModelContainer">
           <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CareHistory" EntityType="Self.CareHistory" Schema="dbo" store:Type="Tables" />
@@ -517,11 +535,11 @@
           <EntitySet Name="Discounts" EntityType="Self.Discounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fertilization" EntityType="Self.Fertilization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Fertilizers" EntityType="Self.Fertilizers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lighting" EntityType="Self.Lighting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlantLocations" EntityType="Self.PlantLocations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plants" EntityType="Self.Plants" Schema="dbo" store:Type="Tables" />
@@ -531,101 +549,105 @@
           <EntitySet Name="UserPlants" EntityType="Self.UserPlants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Watering" EntityType="Self.Watering" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Admins__admin_id__5DCAEF64" Association="Self.FK__Admins__admin_id__5DCAEF64">
+          <AssociationSet Name="FK__Admins__admin_id__5AEE82B9" Association="Self.FK__Admins__admin_id__5AEE82B9">
             <End Role="Users" EntitySet="Users" />
             <End Role="Admins" EntitySet="Admins" />
           </AssociationSet>
-          <AssociationSet Name="FK__CareHisto__plant__4222D4EF" Association="Self.FK__CareHisto__plant__4222D4EF">
+          <AssociationSet Name="FK__CareHisto__plant__5BE2A6F2" Association="Self.FK__CareHisto__plant__5BE2A6F2">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="CareHistory" EntitySet="CareHistory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cart__plant_id__7849DB76" Association="Self.FK__Cart__plant_id__7849DB76">
+          <AssociationSet Name="FK__Cart__plant_id__5CD6CB2B" Association="Self.FK__Cart__plant_id__5CD6CB2B">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Cart__user_id__7755B73D" Association="Self.FK__Cart__user_id__7755B73D">
+          <AssociationSet Name="FK__Cart__user_id__5DCAEF64" Association="Self.FK__Cart__user_id__5DCAEF64">
             <End Role="Users" EntitySet="Users" />
             <End Role="Cart" EntitySet="Cart" />
           </AssociationSet>
-          <AssociationSet Name="FK__Discounts__plant__3E1D39E1" Association="Self.FK__Discounts__plant__3E1D39E1">
+          <AssociationSet Name="FK__Discounts__plant__5EBF139D" Association="Self.FK__Discounts__plant__5EBF139D">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Discounts" EntitySet="Discounts" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fertiliza__ferti__3C69FB99" Association="Self.FK__Fertiliza__ferti__3C69FB99">
+          <AssociationSet Name="FK__Fertiliza__ferti__5FB337D6" Association="Self.FK__Fertiliza__ferti__5FB337D6">
             <End Role="Fertilizers" EntitySet="Fertilizers" />
             <End Role="Fertilization" EntitySet="Fertilization" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fertiliza__plant__3B75D760" Association="Self.FK__Fertiliza__plant__3B75D760">
+          <AssociationSet Name="FK__Fertiliza__plant__60A75C0F" Association="Self.FK__Fertiliza__plant__60A75C0F">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Fertilization" EntitySet="Fertilization" />
           </AssociationSet>
-          <AssociationSet Name="FK__Inventory__Plant__70A8B9AE" Association="Self.FK__Inventory__Plant__70A8B9AE">
+          <AssociationSet Name="FK__Inventory__Plant__619B8048" Association="Self.FK__Inventory__Plant__619B8048">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Inventory" EntitySet="Inventory" />
           </AssociationSet>
-          <AssociationSet Name="FK__Lighting__plant___47DBAE45" Association="Self.FK__Lighting__plant___47DBAE45">
+          <AssociationSet Name="FK__Lighting__plant___6383C8BA" Association="Self.FK__Lighting__plant___6383C8BA">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Lighting" EntitySet="Lighting" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__order__690797E6" Association="Self.FK__OrderDeta__order__690797E6">
+          <AssociationSet Name="FK__OrderDeta__order__6477ECF3" Association="Self.FK__OrderDeta__order__6477ECF3">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__plant__69FBBC1F" Association="Self.FK__OrderDeta__plant__69FBBC1F">
+          <AssociationSet Name="FK__OrderDeta__plant__656C112C" Association="Self.FK__OrderDeta__plant__656C112C">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__user_id__662B2B3B" Association="Self.FK__Orders__user_id__662B2B3B">
+          <AssociationSet Name="FK__Orders__user_id__66603565" Association="Self.FK__Orders__user_id__66603565">
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Photos__plant_id__44FF419A" Association="Self.FK__Photos__plant_id__44FF419A">
+          <AssociationSet Name="FK__Photos__plant_id__6754599E" Association="Self.FK__Photos__plant_id__6754599E">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Photos" EntitySet="Photos" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlantLoca__plant__32E0915F" Association="Self.FK__PlantLoca__plant__32E0915F">
+          <AssociationSet Name="FK__PlantLoca__plant__68487DD7" Association="Self.FK__PlantLoca__plant__68487DD7">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="PlantLocations" EntitySet="PlantLocations" />
           </AssociationSet>
-          <AssociationSet Name="FK__PlantLoca__room___33D4B598" Association="Self.FK__PlantLoca__room___33D4B598">
+          <AssociationSet Name="FK__PlantLoca__room___693CA210" Association="Self.FK__PlantLoca__room___693CA210">
             <End Role="Rooms" EntitySet="Rooms" />
             <End Role="PlantLocations" EntitySet="PlantLocations" />
           </AssociationSet>
-          <AssociationSet Name="FK__Plants__category__29572725" Association="Self.FK__Plants__category__29572725">
+          <AssociationSet Name="FK__Plants__category__6A30C649" Association="Self.FK__Plants__category__6A30C649">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Plants" EntitySet="Plants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Plants__user_id__2A4B4B5E" Association="Self.FK__Plants__user_id__2A4B4B5E">
+          <AssociationSet Name="FK__Plants__user_id__6B24EA82" Association="Self.FK__Plants__user_id__6B24EA82">
             <End Role="Users" EntitySet="Users" />
             <End Role="Plants" EntitySet="Plants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reminders__plant__10216507" Association="Self.FK__Reminders__plant__10216507">
+          <AssociationSet Name="FK__Reminders__plant__6C190EBB" Association="Self.FK__Reminders__plant__6C190EBB">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reminders__user___0F2D40CE" Association="Self.FK__Reminders__user___0F2D40CE">
+          <AssociationSet Name="FK__Reminders__user___6D0D32F4" Association="Self.FK__Reminders__user___6D0D32F4">
             <End Role="Users" EntitySet="Users" />
             <End Role="Reminders" EntitySet="Reminders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Rooms__user_id__300424B4" Association="Self.FK__Rooms__user_id__300424B4">
+          <AssociationSet Name="FK__Rooms__user_id__6E01572D" Association="Self.FK__Rooms__user_id__6E01572D">
             <End Role="Users" EntitySet="Users" />
             <End Role="Rooms" EntitySet="Rooms" />
           </AssociationSet>
-          <AssociationSet Name="FK__Temperatu__plant__4AB81AF0" Association="Self.FK__Temperatu__plant__4AB81AF0">
+          <AssociationSet Name="FK__Temperatu__plant__6EF57B66" Association="Self.FK__Temperatu__plant__6EF57B66">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Temperature" EntitySet="Temperature" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserPlant__plant__0A688BB1" Association="Self.FK__UserPlant__plant__0A688BB1">
+          <AssociationSet Name="FK__UserPlant__plant__6FE99F9F" Association="Self.FK__UserPlant__plant__6FE99F9F">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="UserPlants" EntitySet="UserPlants" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserPlant__user___09746778" Association="Self.FK__UserPlant__user___09746778">
+          <AssociationSet Name="FK__UserPlant__user___70DDC3D8" Association="Self.FK__UserPlant__user___70DDC3D8">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserPlants" EntitySet="UserPlants" />
           </AssociationSet>
-          <AssociationSet Name="FK__Watering__plant___36B12243" Association="Self.FK__Watering__plant___36B12243">
+          <AssociationSet Name="FK__Watering__plant___71D1E811" Association="Self.FK__Watering__plant___71D1E811">
             <End Role="Plants" EntitySet="Plants" />
             <End Role="Watering" EntitySet="Watering" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Orders" Association="Self.FK_Payments_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -640,7 +662,6 @@
           <EntitySet Name="Discounts" EntityType="OrganayzerRasteniyModel.Discounts" />
           <EntitySet Name="Fertilization" EntityType="OrganayzerRasteniyModel.Fertilization" />
           <EntitySet Name="Fertilizers" EntityType="OrganayzerRasteniyModel.Fertilizers" />
-          <EntitySet Name="Genres" EntityType="OrganayzerRasteniyModel.Genres" />
           <EntitySet Name="Inventory" EntityType="OrganayzerRasteniyModel.Inventory" />
           <EntitySet Name="Lighting" EntityType="OrganayzerRasteniyModel.Lighting" />
           <EntitySet Name="OrderDetails" EntityType="OrganayzerRasteniyModel.OrderDetails" />
@@ -750,6 +771,11 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserPlants" EntitySet="UserPlants" />
           </AssociationSet>
+          <EntitySet Name="Payments" EntityType="OrganayzerRasteniyModel.Payments" />
+          <AssociationSet Name="FK_Payments_Orders" Association="OrganayzerRasteniyModel.FK_Payments_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Admins">
           <Key>
@@ -831,13 +857,6 @@
           <Property Name="composition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Fertilization" Relationship="OrganayzerRasteniyModel.FK__Fertiliza__ferti__3C69FB99" FromRole="Fertilizers" ToRole="Fertilization" />
         </EntityType>
-        <EntityType Name="Genres">
-          <Key>
-            <PropertyRef Name="GenreID" />
-          </Key>
-          <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GenreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Inventory">
           <Key>
             <PropertyRef Name="InventoryID" />
@@ -886,6 +905,7 @@
           <Property Name="comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="OrderDetails" Relationship="OrganayzerRasteniyModel.FK__OrderDeta__order__690797E6" FromRole="Orders" ToRole="OrderDetails" />
           <NavigationProperty Name="Users" Relationship="OrganayzerRasteniyModel.FK__Orders__user_id__662B2B3B" FromRole="Orders" ToRole="Users" />
+          <NavigationProperty Name="Payments" Relationship="OrganayzerRasteniyModel.FK_Payments_Orders" FromRole="Orders" ToRole="Payments" />
         </EntityType>
         <EntityType Name="Photos">
           <Key>
@@ -1303,6 +1323,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="payment_method" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="OrganayzerRasteniyModel.FK_Payments_Orders" FromRole="Payments" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK_Payments_Orders">
+          <End Type="OrganayzerRasteniyModel.Orders" Role="Orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="OrganayzerRasteniyModel.Payments" Role="Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1384,14 +1430,6 @@
                 <ScalarProperty Name="composition" ColumnName="composition" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Genres">
-            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Genres">
-              <MappingFragment StoreEntitySet="Genres">
-                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
-                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1540,6 +1578,18 @@
                 <ScalarProperty Name="watering_date" ColumnName="watering_date" />
                 <ScalarProperty Name="plant_id" ColumnName="plant_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="OrganayzerRasteniyModel.Payments">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="payment_method" ColumnName="payment_method" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

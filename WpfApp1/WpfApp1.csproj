@@ -218,9 +218,6 @@
     <Compile Include="AppData\Fertilizers.cs">
       <DependentUpon>OrganayzerRasteniyModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="AppData\Genres.cs">
-      <DependentUpon>OrganayzerRasteniyModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="AppData\Inventory.cs">
       <DependentUpon>OrganayzerRasteniyModel.tt</DependentUpon>
     </Compile>
@@ -248,6 +245,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OrganayzerRasteniyModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="AppData\Payments.cs">
+      <DependentUpon>OrganayzerRasteniyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AppData\Photos.cs">
       <DependentUpon>OrganayzerRasteniyModel.tt</DependentUpon>
@@ -292,6 +292,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\CheckoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CreatePlantPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -332,6 +336,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\UserOrdersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\UserPlantsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -346,6 +354,9 @@
     </Compile>
     <Compile Include="Pages\CartPage.xaml.cs">
       <DependentUpon>CartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CheckoutPage.xaml.cs">
+      <DependentUpon>CheckoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\CreatePlantPage.xaml.cs">
       <DependentUpon>CreatePlantPage.xaml</DependentUpon>
@@ -376,6 +387,9 @@
     </Compile>
     <Compile Include="Pages\UserGardenPage.xaml.cs">
       <DependentUpon>UserGardenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserOrdersPage.xaml.cs">
+      <DependentUpon>UserOrdersPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserPlantsPage.xaml.cs">
       <DependentUpon>UserPlantsPage.xaml</DependentUpon>

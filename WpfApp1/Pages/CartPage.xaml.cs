@@ -124,7 +124,8 @@ namespace WpfApp1.Pages
 
         private void CheckoutButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Оформление заказа ещё не реализовано.");
+            // переходим на страницу оформления
+            NavigationService.Navigate(new CheckoutPage());
         }
     }
 

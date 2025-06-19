@@ -18,6 +18,7 @@ namespace WpfApp1.AppData
         public Orders()
         {
             this.OrderDetails = new HashSet<OrderDetails>();
+            this.Payments = new HashSet<Payments>();
         }
     
         public int id { get; set; }
@@ -33,5 +34,7 @@ namespace WpfApp1.AppData
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         public virtual Users Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payments> Payments { get; set; }
     }
 }

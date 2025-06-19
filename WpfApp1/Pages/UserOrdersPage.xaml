@@ -1,0 +1,59 @@
+﻿<Page x:Class="WpfApp1.Pages.UserOrdersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Мои заказы">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Мои заказы"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="20"/>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl x:Name="ListOrders" Margin="20">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- карточка заказа -->
+                        <Border BorderBrush="#DDD" BorderThickness="1" Margin="5" Padding="10">
+                            <StackPanel>
+                                <!-- шапка -->
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="Заказ №" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding OrderId}" Margin="2,0"/>
+                                    <TextBlock Text="{Binding OrderDate, StringFormat='от {0:dd.MM.yyyy HH:mm}'}"
+                                               Foreground="Gray" Margin="10,0"/>
+                                    <TextBlock Text="{Binding Status}" Foreground="Blue" Margin="15,0"/>
+                                </StackPanel>
+
+                                <!-- сумма -->
+                                <TextBlock Text="{Binding Total, StringFormat='Сумма: {0:N2} ₽'}"
+                                           FontSize="14" FontWeight="SemiBold" Margin="0,5"/>
+
+                                <!-- список товаров -->
+                                <ItemsControl ItemsSource="{Binding Items}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock>
+                                                <Run Text="• "/>
+                                                <Run Text="{Binding Name}"/>
+                                                <Run Text=" x "/>
+                                                <Run Text="{Binding Qty}"/>
+                                                <Run Text=" — "/>
+                                                <Run Text="{Binding Sum, StringFormat={}{0:N2} ₽}"/>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

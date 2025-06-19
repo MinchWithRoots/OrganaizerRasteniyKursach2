@@ -32,7 +32,6 @@ namespace WpfApp1.AppData
         public virtual DbSet<Discounts> Discounts { get; set; }
         public virtual DbSet<Fertilization> Fertilization { get; set; }
         public virtual DbSet<Fertilizers> Fertilizers { get; set; }
-        public virtual DbSet<Genres> Genres { get; set; }
         public virtual DbSet<Inventory> Inventory { get; set; }
         public virtual DbSet<Lighting> Lighting { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
@@ -46,5 +45,6 @@ namespace WpfApp1.AppData
         public virtual DbSet<UserPlants> UserPlants { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Watering> Watering { get; set; }
+        public virtual DbSet<Payments> Payments { get; set; }
     }
 }

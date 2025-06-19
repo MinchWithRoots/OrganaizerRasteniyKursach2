@@ -199,8 +199,13 @@ namespace WpfApp1.Pages
 
         /* ───────────────────── навигация ───────────────────── */
         private void GoToCart_Click(object sender, MouseButtonEventArgs e) => NavigationService.Navigate(new CartPage());
-        private void GoToOrders_Click(object sender, MouseButtonEventArgs e) { /* NavigationService.Navigate(new UserOrdersPage(...)); */ }
-        private void GoToReminders_Click(object sender, MouseButtonEventArgs e) { /* NavigationService.Navigate(new RemindersPage(...));  */ }
+
+        private void GoToOrders_Click(object sender, MouseButtonEventArgs e) { 
+            NavigationService.Navigate(new UserOrdersPage()); 
+        }
+        private void GoToReminders_Click(object sender, MouseButtonEventArgs e) { 
+            NavigationService.Navigate(new NotificationsPage(App.CurrentUser.id));  
+        }
         private void GoToMyPlants_Click(object sender, MouseButtonEventArgs e) => NavigationService.Navigate(new UserGardenPage());
     }
 }
