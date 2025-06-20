@@ -38,6 +38,14 @@
             <Button Content="Подтвердить заказ"
                     Background="#28A745" Foreground="White" Padding="10"
                     Click="ConfirmOrder_Click"/>
+
+            <!-- Кнопка «Назад» -->
+            <Button Content="Назад в каталог"
+            Background="#607D8B"
+            Foreground="White"
+            Padding="10"
+            
+            Click="BackToCatalog_Click"/>
         </StackPanel>
     </Grid>
 </Page>

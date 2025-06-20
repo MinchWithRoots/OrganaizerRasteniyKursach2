@@ -9,39 +9,53 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Мои заказы"
+        <DockPanel Margin="20" Grid.Row="0">
+            <TextBlock Text="Мои заказы"
                    FontSize="24"
                    FontWeight="Bold"
-                   Margin="20"/>
+                   DockPanel.Dock="Left"/>
+
+            <Button Content="Назад в каталог"
+                Background="#607D8B"
+                Foreground="White"
+                Padding="8,4"
+                Margin="15,0,0,0"
+                Click="BackToCatalog_Click"
+                DockPanel.Dock="Right"/>
+        </DockPanel>
 
         <ScrollViewer Grid.Row="1">
             <ItemsControl x:Name="ListOrders" Margin="20">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <!-- карточка заказа -->
-                        <Border BorderBrush="#DDD" BorderThickness="1" Margin="5" Padding="10">
+                        <Border BorderBrush="#DDD" BorderThickness="1" Margin="0 0 0 15" Padding="10">
                             <StackPanel>
                                 <!-- шапка -->
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Заказ №" FontWeight="Bold"/>
                                     <TextBlock Text="{Binding OrderId}" Margin="2,0"/>
-                                    <TextBlock Text="{Binding OrderDate, StringFormat='от {0:dd.MM.yyyy HH:mm}'}"
-                                               Foreground="Gray" Margin="10,0"/>
-                                    <TextBlock Text="{Binding Status}" Foreground="Blue" Margin="15,0"/>
+                                    <TextBlock Margin="10,0"
+                                               Foreground="Gray"
+                                               Text="{Binding OrderDate, StringFormat='от {0:dd.MM.yyyy HH:mm}'}"/>
+                                    <TextBlock Margin="15,0"
+                                               Foreground="Blue"
+                                               Text="{Binding Status}"/>
                                 </StackPanel>
 
                                 <!-- сумма -->
-                                <TextBlock Text="{Binding Total, StringFormat='Сумма: {0:N2} ₽'}"
-                                           FontSize="14" FontWeight="SemiBold" Margin="0,5"/>
+                                <TextBlock Margin="0,5"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Text="{Binding TotalAmount, StringFormat='Сумма: {0:N2} ₽'}"/>
 
-                                <!-- список товаров -->
+                                <!-- позиции -->
                                 <ItemsControl ItemsSource="{Binding Items}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock>
+                                            <TextBlock FontSize="12">
                                                 <Run Text="• "/>
                                                 <Run Text="{Binding Name}"/>
-                                                <Run Text=" x "/>
+                                                <Run Text=" × "/>
                                                 <Run Text="{Binding Qty}"/>
                                                 <Run Text=" — "/>
                                                 <Run Text="{Binding Sum, StringFormat={}{0:N2} ₽}"/>
