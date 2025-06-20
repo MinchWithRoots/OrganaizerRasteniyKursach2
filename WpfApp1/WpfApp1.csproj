@@ -459,6 +459,7 @@
       <DependentUpon>OrganayzerRasteniyModel.edmx</DependentUpon>
       <LastGenOutput>OrganayzerRasteniyModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Images\GrowzyLogo.png" />
     <Content Include="Images\no-image.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

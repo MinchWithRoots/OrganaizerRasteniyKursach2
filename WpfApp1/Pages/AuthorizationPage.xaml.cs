@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.AppData;
+using System.Windows.Navigation;
 
 namespace WpfApp1.Pages
 {
@@ -13,44 +11,32 @@ namespace WpfApp1.Pages
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void Login_Click(object sender, RoutedEventArgs e)
         {
             string login = tbLogin.Text;
-            string password = tbPassword.Password;
+            string password = tbPassword.Visibility == Visibility.Visible ? tbPassword.Password : tbVisiblePwd.Text;
 
-            // Проверяем наличие пользователя в таблице Admins
-            var admin = AppConnect.OrganayzerRasteniyModel.Admins.FirstOrDefault(a => a.login == login && a.password == password);
-
-            if (admin != null)
-            {
-                // Это администратор
-                App.CurrentUser = new Users { name = admin.name, login = admin.login }; // Создаем "фиктивного" пользователя
-                App.CurrentRole = "Admin";
-                MessageBox.Show($"Добро пожаловать, {admin.name}! (Администратор)");
-                MainFrame.FrameMain.Navigate(new AdminPlantsPage());
-                return;
-            }
-
-            // Если администратора нет, проверяем таблицу Users
-            var user = AppConnect.OrganayzerRasteniyModel.Users.FirstOrDefault(u => u.login == login && u.password == password);
-
-            if (user != null)
-            {
-                // Это обычный пользователь
-                App.CurrentUser = user;
-                App.CurrentRole = "User";
-                MessageBox.Show($"Здравствуйте, {user.name}!");
-                MainFrame.FrameMain.Navigate(new UserPlantsPage());
-                return;
-            }
-
-            // Если ни администратор, ни пользователь не найдены
-            MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Логин: {login}\nПароль: {password}", "Вход");
+            // Здесь логика авторизации
         }
 
-        private void btnRegistration_Click(object sender, RoutedEventArgs e)
+        private void Register_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.FrameMain.Navigate(new RegistrationPage());
+            NavigationService?.Navigate(new RegistrationPage());
+        }
+
+        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            tbVisiblePwd.Text = tbPassword.Password;
+            tbVisiblePwd.Visibility = Visibility.Visible;
+            tbPassword.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbPassword.Password = tbVisiblePwd.Text;
+            tbVisiblePwd.Visibility = Visibility.Collapsed;
+            tbPassword.Visibility = Visibility.Visible;
         }
     }
 }
