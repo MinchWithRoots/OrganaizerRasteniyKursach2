@@ -34,102 +34,66 @@ namespace WpfApp1.Pages
             string password = passwordTb.Password;
             string repeatPassword = repeatPasswordTb.Password;
             string email = emailTb.Text;
-            DateTime? birthDate = birthDateTb.SelectedDate;
-            string experience = experienceTb.Text;
             string phone = phoneTb.Text;
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
+
             if (string.IsNullOrWhiteSpace(name))
-            {
-                stringBuilder.AppendLine("Заполните имя\n");
-            }
+                sb.AppendLine("Заполните имя");
             if (string.IsNullOrWhiteSpace(login))
-            {
-                stringBuilder.AppendLine("Заполните логин\n");
-            }
+                sb.AppendLine("Заполните логин");
             if (string.IsNullOrWhiteSpace(password))
-            {
-                stringBuilder.AppendLine("Пароль не должен быть пустым\n");
-            }
+                sb.AppendLine("Введите пароль");
             if (string.IsNullOrWhiteSpace(repeatPassword))
-            {
-                stringBuilder.AppendLine("Повторите пароль\n");
-            }
+                sb.AppendLine("Повторите пароль");
             if (string.IsNullOrWhiteSpace(email))
-            {
-                stringBuilder.AppendLine("Заполните email\n");
-            }
-            if (string.IsNullOrWhiteSpace(experience))
-            {
-                stringBuilder.AppendLine("Заполните стаж\n");
-            }
+                sb.AppendLine("Введите email");
             if (string.IsNullOrWhiteSpace(phone))
-            {
-                stringBuilder.AppendLine("Заполните телефон\n");
-            }
+                sb.AppendLine("Введите телефон");
             if (password != repeatPassword)
-            {
-                stringBuilder.AppendLine("Пароли не совпадают\n");
-            }
-            if (birthDate.HasValue && birthDate.Value > DateTime.Today)
-            {
-                stringBuilder.AppendLine("Дата рождения не может быть в будущем\n");
-            }
-            if (stringBuilder.Length > 0)
-            {
-                MessageBox.Show(stringBuilder.ToString());
-                return;
-            }
+                sb.AppendLine("Пароли не совпадают");
 
-            // Проверка на уникальность логина
-            if (AppData.AppConnect.OrganayzerRasteniyModel.Users.Any(u => u.email == login))
-            {
-                MessageBox.Show("Такой логин уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Валидация email
             if (!IsValidEmail(email))
-            {
-                MessageBox.Show("Некорректный email. Попробуйте снова", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Валидация телефона
+                sb.AppendLine("Некорректный email");
             if (!IsValidPhone(phone))
-            {
-                MessageBox.Show("Некорректный телефон. Телефон может содержать только символ + и цифры", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // Валидация пароля
+                sb.AppendLine("Телефон должен начинаться с '+' и содержать только цифры");
             if (!IsValidPassword(password))
+                sb.AppendLine("Пароль должен быть не менее 8 символов и содержать хотя бы одну цифру и одну букву");
+
+            var ctx = AppConnect.OrganayzerRasteniyModel;
+
+            if (ctx.Users.Any(u => u.login == login))
+                sb.AppendLine("Такой логин уже существует");
+
+            if (sb.Length > 0)
             {
-                MessageBox.Show("Некорректный пароль. Пароль должен быть не менее 8 символов и содержать как минимум одну цифру и одну букву", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(sb.ToString(), "Ошибка регистрации", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Создание нового пользователя
-            _currentUser.name = name;
-            _currentUser.email = login;
-            _currentUser.password = password;
-            _currentUser.email = email;
-            //_currentUser.BirthDate = birthDate;
-            //_currentUser.Experience = experience;
-            _currentUser.phone = phone;
+            // Добавление пользователя
+            var user = new Users
+            {
+                name = name,
+                login = login,
+                password = password,
+                email = email,
+                phone = phone
+            };
 
             try
             {
-                AppData.AppConnect.OrganayzerRasteniyModel.Users.Add(_currentUser);
-                AppData.AppConnect.OrganayzerRasteniyModel.SaveChanges();
+                ctx.Users.Add(user);
+                ctx.SaveChanges();
                 MessageBox.Show("Регистрация прошла успешно", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 AppData.MainFrame.FrameMain.GoBack();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private bool IsValidEmail(string email)
         {

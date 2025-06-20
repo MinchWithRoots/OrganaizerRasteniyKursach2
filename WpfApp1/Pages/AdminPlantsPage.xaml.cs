@@ -207,56 +207,61 @@ namespace WpfApp1.Pages
             }
         }
 
-      
-       
+
+
 
         private void DeletePlant_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            if (button?.Tag != null)
-            {
-                dynamic item = button.Tag;
+            var btn = sender as Button;
+            if (btn == null || btn.Tag == null) return;
 
-                int plantId;
-                try
+            dynamic vm = btn.Tag;
+
+            int plantId = vm.Id;
+            if (MessageBox.Show($"Удалить «{vm.Name}»?",
+                                "Подтверждение",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+
+            try
+            {
+                var ctx = AppConnect.OrganayzerRasteniyModel;
+
+                // Удаляем все связанные данные
+                ctx.Photos.RemoveRange(ctx.Photos.Where(x => x.plant_id == plantId));
+                ctx.Discounts.RemoveRange(ctx.Discounts.Where(x => x.plant_id == plantId));
+                ctx.Cart.RemoveRange(ctx.Cart.Where(x => x.plant_id == plantId));
+                ctx.UserPlants.RemoveRange(ctx.UserPlants.Where(x => x.plant_id == plantId));
+                ctx.Watering.RemoveRange(ctx.Watering.Where(x => x.plant_id == plantId));
+                ctx.Temperature.RemoveRange(ctx.Temperature.Where(x => x.plant_id == plantId));
+                ctx.Fertilization.RemoveRange(ctx.Fertilization.Where(x => x.plant_id == plantId));
+                ctx.Lighting.RemoveRange(ctx.Lighting.Where(x => x.plant_id == plantId));
+                ctx.PlantLocations.RemoveRange(ctx.PlantLocations.Where(x => x.plant_id == plantId));
+
+                bool hasOrders = ctx.OrderDetails.Any(od => od.plant_id == plantId);
+                if (hasOrders)
                 {
-                    plantId = item.Id;
-                }
-                catch
-                {
-                    MessageBox.Show("Не удалось получить ID растения.");
+                    MessageBox.Show("Невозможно удалить: растение встречается в оформленных заказах.",
+                                    "Отказ", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                string plantName = "неизвестное растение";
-                try
+                var plant = ctx.Plants.FirstOrDefault(p => p.id == plantId);
+                if (plant != null)
                 {
-                    plantName = item.Name ?? "растение";
-                }
-                catch { }
-
-                var result = MessageBox.Show($"Вы уверены, что хотите удалить растение '{plantName}'?",
-                                             "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        var dbPlant = AppConnect.OrganayzerRasteniyModel.Plants.Find(plantId);
-                        if (dbPlant != null)
-                        {
-                            AppConnect.OrganayzerRasteniyModel.Plants.Remove(dbPlant);
-                            AppConnect.OrganayzerRasteniyModel.SaveChanges();
-                            UpdatePlants();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Ошибка при удалении растения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    ctx.Plants.Remove(plant);
+                    ctx.SaveChanges();
+                    MessageBox.Show("Растение удалено.", "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                    UpdatePlants();
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+
 
         private void bCreatePlant_Click(object sender, RoutedEventArgs e)
         {

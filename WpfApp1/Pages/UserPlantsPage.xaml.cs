@@ -5,14 +5,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using System.IO;
 using WpfApp1.AppData;
 
 namespace WpfApp1.Pages
 {
-    /// <summary>
-    /// Каталог растений (вид для пользователя).
-    /// Работает на C# 7.3, без nullable-reference-types.
-    /// </summary>
+    
     public partial class UserPlantsPage : Page
     {
         public UserPlantsPage()
@@ -123,8 +121,23 @@ namespace WpfApp1.Pages
                          .Where(p => p.plant_id == plantId)
                          .OrderByDescending(p => p.upload_date)
                          .FirstOrDefault();
-            return photo != null ? photo.photo_path : "/Images/no-image.png";
+
+            if (photo != null && !string.IsNullOrEmpty(photo.photo_path))
+            {
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, photo.photo_path.TrimStart('/'));
+                if (File.Exists(fullPath))
+                    return fullPath;
+            }
+
+            string defaultImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "no-image.png");
+            if (!File.Exists(defaultImagePath))
+            {
+                return "pack://application:,,,/Images/no-image.jpg";
+            }
+
+            return defaultImagePath;
         }
+
 
         /* ───────────────────── события UI ───────────────────── */
         private void ComboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePlants();

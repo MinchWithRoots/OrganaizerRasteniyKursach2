@@ -11,46 +11,48 @@ namespace WpfApp1.Pages
     public partial class CreatePlantPage : Page
     {
         private Plants _currentPlant;
-        private bool _isEditMode = false;
-        private string _coverImagePath = null;
+        private bool _isEditMode;
+        private string _coverImagePath;
 
-        // Конструктор для создания нового растения
+        /* ―――――――――――――― конструкторы ―――――――――――――― */
+
+        // Для нового растения
         public CreatePlantPage()
         {
             InitializeComponent();
 
             _currentPlant = new Plants();
-            DataContext = this;
+            DataContext = _currentPlant;     // сразу привязываем
             LoadCategories();
         }
 
+        // Для редактирования
         public CreatePlantPage(Plants plant) : this()
         {
             _currentPlant = plant;
             _isEditMode = true;
             DataContext = _currentPlant;
 
-            // Устанавливаем значения на форму
+            /* заполняем поля вручную, чтобы не отформатировать цену */
             tbName.Text = _currentPlant.name;
             tbDescription.Text = _currentPlant.description;
-            dpPlantingDate.SelectedDate = _currentPlant.planting_date;
             cbCategories.SelectedValue = _currentPlant.category_id;
-            tbPrice.Text = _currentPlant.price?.ToString("0.0") ?? "";
+            tbPrice.Text = _currentPlant.price?.ToString("F0") ?? "";
 
-            // Загружаем изображение
+            /* картинка */
             try
             {
-                string imagePath = GetPhotoPath(_currentPlant.id);
-                if (!string.IsNullOrEmpty(imagePath))
-                {
-                    imgCover.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(imagePath));
-                }
+                var path = GetPhotoPath(_currentPlant.id);
+                if (!string.IsNullOrEmpty(path))
+                    imgCover.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(path));
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке изображения: {ex.Message}");
+                MessageBox.Show($"Ошибка изображения: {ex.Message}");
             }
         }
+
+        /* ―――――――――――――― справочники ―――――――――――――― */
 
         private void LoadCategories()
         {
@@ -59,82 +61,78 @@ namespace WpfApp1.Pages
             cbCategories.SelectedValuePath = "id";
         }
 
+        /* ―――――――――――――― работа с изображением ―――――――――――――― */
+
         private void bImage_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Изображения (*.jpg;*.png)|*.jpg;*.png";
-
-            if (openFileDialog.ShowDialog() == true)
+            var dlg = new OpenFileDialog
             {
-                _coverImagePath = openFileDialog.FileName;
-                imgCover.Source = new System.Windows.Media.Imaging.BitmapImage(
-                    new Uri(_coverImagePath, UriKind.Absolute));
+                Filter = "Изображения (*.jpg;*.png)|*.jpg;*.png"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                _coverImagePath = dlg.FileName;
+                imgCover.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(_coverImagePath));
             }
         }
 
+        /* ―――――――――――――― сохранение ―――――――――――――― */
+
         private void bSave_Click(object sender, RoutedEventArgs e)
         {
+            /* --- простая валидация --- */
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
                 MessageBox.Show("Введите название растения.");
                 return;
             }
 
-            if (!decimal.TryParse(tbPrice.Text.Replace('.', ','), out decimal price) || price <= 0)
+            // Убираем пробелы/неразрывные пробелы из ввода
+            var rawPrice = tbPrice.Text.Replace(" ", "").Replace("\u00A0", "");
+
+            if (!int.TryParse(rawPrice, out int price) || price <= 0)
             {
-                MessageBox.Show("Введите корректную цену.");
+                MessageBox.Show("Введите корректную цену (целое число, без копеек).");
                 return;
             }
 
-            // Заполняем данные из полей
+            /* --- заполняем данные --- */
             _currentPlant.name = tbName.Text.Trim();
             _currentPlant.description = tbDescription.Text.Trim();
-            _currentPlant.planting_date = dpPlantingDate.SelectedDate;
             _currentPlant.category_id = cbCategories.SelectedValue as int?;
             _currentPlant.price = price;
 
             try
             {
+                var ctx = AppConnect.OrganayzerRasteniyModel;
+
                 if (_isEditMode)
                 {
-                    var dbPlant = AppConnect.OrganayzerRasteniyModel.Plants.Find(_currentPlant.id);
-                    if (dbPlant != null)
+                    var dbPlant = ctx.Plants.Find(_currentPlant.id);
+                    if (dbPlant == null)
                     {
-                        // Обновляем поля
-                        dbPlant.name = _currentPlant.name;
-                        dbPlant.description = _currentPlant.description;
-                        dbPlant.planting_date = _currentPlant.planting_date;
-                        dbPlant.category_id = _currentPlant.category_id;
-                        dbPlant.price = _currentPlant.price;
-
-                        AppConnect.OrganayzerRasteniyModel.SaveChanges();
-
-                        if (!string.IsNullOrEmpty(_coverImagePath))
-                        {
-                            SavePhoto(_currentPlant.id);
-                            // Обновляем путь к изображению в текущем объекте
-                           
-                        }
-                        // Перезагружаем страницу с принудительной перезагрузкой фото
-                        NavigationService.Navigate(new AdminPlantsPage());
+                        MessageBox.Show("Запись не найдена.");
+                        return;
                     }
-                }
 
+                    dbPlant.name = _currentPlant.name;
+                    dbPlant.description = _currentPlant.description;
+                    dbPlant.category_id = _currentPlant.category_id;
+                    dbPlant.price = _currentPlant.price;
+                }
                 else
                 {
-                    // Добавляем новое растение
-                    AppConnect.OrganayzerRasteniyModel.Plants.Add(_currentPlant);
-                    AppConnect.OrganayzerRasteniyModel.SaveChanges();
-
-                    // Сохраняем фото, если выбрано
-                    if (!string.IsNullOrEmpty(_coverImagePath))
-                    {
-                        SavePhoto(_currentPlant.id);
-                    }
+                    ctx.Plants.Add(_currentPlant);
                 }
 
+                ctx.SaveChanges();      // первым делом — получить id для фото
+
+                if (!string.IsNullOrEmpty(_coverImagePath))
+                    SavePhoto(_currentPlant.id);
+
                 MessageBox.Show(_isEditMode ? "Растение обновлено!" : "Растение добавлено!");
-                
+                NavigationService.Navigate(new AdminPlantsPage());
             }
             catch (Exception ex)
             {
@@ -142,63 +140,49 @@ namespace WpfApp1.Pages
             }
         }
 
+        /* ―――――――――――――― фото ―――――――――――――― */
+
         private void SavePhoto(int plantId)
         {
             if (string.IsNullOrEmpty(_coverImagePath)) return;
 
-            string fileName = Path.GetFileName(_coverImagePath);
-            fileName = fileName.Replace(" ", "_"); // Убираем пробелы
+            string fileName = Path.GetFileName(_coverImagePath).Replace(" ", "_");
+            string imgDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images");
 
-            string targetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images");
-            if (!Directory.Exists(targetDirectory))
-                Directory.CreateDirectory(targetDirectory);
+            if (!Directory.Exists(imgDir))
+                Directory.CreateDirectory(imgDir);
 
-            string targetPath = Path.Combine(targetDirectory, fileName);
+            string targetPath = Path.Combine(imgDir, fileName);
 
-            try
+            /* перезаписываем без вопросов */
+            File.Copy(_coverImagePath, targetPath, true);
+
+            var ctx = AppConnect.OrganayzerRasteniyModel;
+
+            // удаляем старые фото
+            ctx.Photos.RemoveRange(ctx.Photos.Where(p => p.plant_id == plantId));
+
+            ctx.Photos.Add(new Photos
             {
-                // Удаляем старые фото для этого растения
-                var oldPhotos = AppConnect.OrganayzerRasteniyModel.Photos.Where(p => p.plant_id == plantId).ToList();
-                AppConnect.OrganayzerRasteniyModel.Photos.RemoveRange(oldPhotos);
+                plant_id = plantId,
+                photo_path = $"/Images/{fileName}",
+                upload_date = DateTime.Now
+            });
 
-                // Копируем новое изображение
-                if (!File.Exists(targetPath))
-                    File.Copy(_coverImagePath, targetPath, true);
-
-                Photos newPhoto = new Photos
-                {
-                    plant_id = plantId,
-                    photo_path = $"/Images/{fileName}", // Относительный путь
-                    upload_date = DateTime.Now
-                };
-
-                AppConnect.OrganayzerRasteniyModel.Photos.Add(newPhoto);
-                AppConnect.OrganayzerRasteniyModel.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении изображения: {ex.Message}");
-            }
+            ctx.SaveChanges();
         }
 
         private string GetPhotoPath(int plantId)
         {
             var photo = AppConnect.OrganayzerRasteniyModel.Photos
-                .Where(p => p.plant_id == plantId)
-                .OrderByDescending(p => p.upload_date)
-                .FirstOrDefault();
+                                   .Where(p => p.plant_id == plantId)
+                                   .OrderByDescending(p => p.upload_date)
+                                   .FirstOrDefault();
 
-            if (photo != null && !string.IsNullOrEmpty(photo.photo_path))
-            {
-                // Проверяем существование файла на диске
-                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, photo.photo_path.TrimStart('/'));
-                if (File.Exists(fullPath))
-                    return fullPath;
-            }
+            if (photo == null) return null;
 
-            // Дефолтное изображение через pack URI
-            return "pack://application:,,,/Images/no-image.png";
+            string full = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, photo.photo_path.TrimStart('/'));
+            return File.Exists(full) ? full : null;
         }
-
     }
 }
