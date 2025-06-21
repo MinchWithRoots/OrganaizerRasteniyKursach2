@@ -9,24 +9,26 @@
       UseLayoutRounding="True"
       SnapsToDevicePixels="True">
 
+    <!--──────────────────  РЕСУРСЫ  ──────────────────-->
     <Page.Resources>
-        <!-- Цвета -->
+
+        <!-- Палитра -->
         <Color x:Key="cGreen">#2D6A4F</Color>
         <Color x:Key="cGreenLight">#4C824E</Color>
         <Color x:Key="cDanger">#C1121F</Color>
 
-        <SolidColorBrush x:Key="bGreen" Color="{StaticResource cGreen}"/>
+        <SolidColorBrush x:Key="bGreen"      Color="{StaticResource cGreen}"/>
         <SolidColorBrush x:Key="bGreenLight" Color="{StaticResource cGreenLight}"/>
-        <SolidColorBrush x:Key="bDanger" Color="{StaticResource cDanger}"/>
+        <SolidColorBrush x:Key="bDanger"     Color="{StaticResource cDanger}"/>
 
-        <!-- Жёсткая тень -->
+        <!-- Жёсткая зелёная тень -->
         <DropShadowEffect x:Key="HardShadow"
                           BlurRadius="0"
                           ShadowDepth="4"
                           Opacity="0.4"
                           Color="{StaticResource cGreen}"/>
 
-        <!-- Стили ComboBox -->
+        <!-- Скруглённый ComboBox -->
         <Style x:Key="RoundedCombo" TargetType="ComboBox">
             <Setter Property="Height" Value="34"/>
             <Setter Property="Template">
@@ -34,41 +36,35 @@
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
                             <Border Background="#F1F5F2"
-                            BorderBrush="#CED4DA"
-                            BorderThickness="1"
-                            CornerRadius="6"/>
-
-                            <!-- ✔️ Показываем выбранный элемент -->
+                                    BorderBrush="#CED4DA"
+                                    BorderThickness="1"
+                                    CornerRadius="6"/>
                             <ContentPresenter Margin="10,0,35,0"
-                                      VerticalAlignment="Center"
-                                      IsHitTestVisible="False"
-                                      Content="{TemplateBinding SelectionBoxItem}" />
-
-                            <!-- кнопка-стрелка -->
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              IsHitTestVisible="False"/>
                             <ToggleButton x:Name="PART_DropDownToggle"
-                                  Width="32"
-                                  HorizontalAlignment="Right"
-                                  Background="Transparent"
-                                  BorderThickness="0"
-                                  Focusable="False"
-                                  IsChecked="{Binding IsDropDownOpen,
-                                                      Mode=TwoWay,
-                                                      RelativeSource={RelativeSource TemplatedParent}}">
-                                <Path Width="8" Height="4"
-                              Fill="{StaticResource bGreen}"
-                              Data="M0,0 L4,4 8,0 Z"/>
+                                          Width="32"
+                                          HorizontalAlignment="Right"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen,
+                                                             Mode=TwoWay,
+                                                             RelativeSource={RelativeSource TemplatedParent}}">
+                                <Path Data="M0,0 L4,4 8,0 Z"
+                                      Width="8" Height="4"
+                                      Fill="{StaticResource bGreen}"/>
                             </ToggleButton>
-
-                            <!-- выпадающий список -->
                             <Popup x:Name="PART_Popup"
-                           Placement="Bottom"
-                           AllowsTransparency="True"
-                           Focusable="False"
-                           IsOpen="{TemplateBinding IsDropDownOpen}">
+                                   Placement="Bottom"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}">
                                 <Border Background="White"
-                                CornerRadius="6"
-                                BorderBrush="#CED4DA"
-                                BorderThickness="1">
+                                        CornerRadius="6"
+                                        BorderBrush="#CED4DA"
+                                        BorderThickness="1">
                                     <ScrollViewer>
                                         <ItemsPresenter/>
                                     </ScrollViewer>
@@ -80,8 +76,7 @@
             </Setter>
         </Style>
 
-
-        <!-- Стили поиска -->
+        <!-- Поле поиска -->
         <Style x:Key="RoundedSearch" TargetType="TextBox">
             <Setter Property="Height" Value="34"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -89,8 +84,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Background="#F1F5F2" BorderBrush="#CED4DA"
-                                BorderThickness="1" CornerRadius="6">
+                        <Border Background="#F1F5F2"
+                                BorderBrush="#CED4DA"
+                                BorderThickness="1"
+                                CornerRadius="6">
                             <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
@@ -98,7 +95,7 @@
             </Setter>
         </Style>
 
-        <!-- Кнопки -->
+        <!-- Универсальная кнопка -->
         <Style x:Key="StyledBtn" TargetType="Button">
             <Setter Property="Height" Value="34"/>
             <Setter Property="MinWidth" Value="110"/>
@@ -111,7 +108,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Margin="8,0"/>
@@ -121,18 +119,18 @@
             </Setter>
         </Style>
 
+        <!-- Кнопки в карточке -->
         <Style x:Key="CardBtnGreen" TargetType="Button" BasedOn="{StaticResource StyledBtn}">
             <Setter Property="MinWidth" Value="105"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#2D6A4F"/>
+            <Setter Property="Background" Value="{StaticResource bGreen}"/>
         </Style>
-
         <Style x:Key="CardBtnRed" TargetType="Button" BasedOn="{StaticResource CardBtnGreen}">
             <Setter Property="Background" Value="{StaticResource bDanger}"/>
         </Style>
     </Page.Resources>
 
-    <!-- ───── Layout ───── -->
+    <!--──────────────────  МАКЕТ  ──────────────────-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -140,14 +138,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Top panel -->
+        <!--========== TOP-BAR ==========-->
         <Border Padding="14">
             <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="#FFCEC77B" Offset="0"/>
                     <GradientStop Color="#FF5CB36E" Offset="1"/>
-                    <GradientStop Color="#FFCEC77B"/>
                 </LinearGradientBrush>
             </Border.Background>
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="160"/>
@@ -159,10 +158,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="ComboFilter" Style="{StaticResource RoundedCombo}"
+                <ComboBox x:Name="ComboFilter"
+                          Style="{StaticResource RoundedCombo}"
                           SelectionChanged="ComboFilter_SelectionChanged"/>
 
-                <ComboBox x:Name="ComboSort" Grid.Column="2"
+                <ComboBox x:Name="ComboSort"
+                          Grid.Column="2"
                           Style="{StaticResource RoundedCombo}"
                           SelectionChanged="ComboSort_SelectionChanged">
                     <ComboBoxItem Content="Название А-Я"/>
@@ -171,48 +172,181 @@
                     <ComboBoxItem Content="Цена ↓"/>
                 </ComboBox>
 
-                <TextBox x:Name="TextSearch" Grid.Column="4"
+                <TextBox x:Name="TextSearch"
+                         Grid.Column="4"
                          Style="{StaticResource RoundedSearch}"
                          TextChanged="TextSearch_TextChanged"/>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="6">
-                    <Button Content="📦 Заказы" Style="{StaticResource StyledBtn}" Click="GoToOrders_Click"/>
-                    <Button Content="% Скидки" Style="{StaticResource StyledBtn}" Margin="8,0,0,0" Click="GoToDiscounts_Click"/>
+                    <Button Content="📦 Заказы"
+                            Style="{StaticResource StyledBtn}"
+                            Click="GoToOrders_Click"/>
+                    <Button Content="% Скидки"
+                            Style="{StaticResource StyledBtn}"
+                            Margin="8,0,0,0"
+                            Click="GoToDiscounts_Click"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Cards -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" ClipToBounds="False">
-            <ItemsControl x:Name="ListPlants" Margin="0,20" ClipToBounds="False">
+        <!--========== КАРТОЧКИ ==========-->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      ClipToBounds="False">
+            <ItemsControl x:Name="ListPlants"
+                          Margin="0,20"
+                          ClipToBounds="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel ItemWidth="340" HorizontalAlignment="Center" ClipToBounds="False"/>
+                        <WrapPanel ItemWidth="340"
+                                   HorizontalAlignment="Center"
+                                   ClipToBounds="False"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="300" Margin="10"
                                 CornerRadius="20"
                                 Background="White"
                                 Effect="{StaticResource HardShadow}">
+
                             <StackPanel>
-                                <Image Source="{Binding PhotoPath}"
-                                       Height="210" Margin="16,16,16,0"
-                                       Stretch="UniformToFill"/>
+
+                                <!-- фото + бейдж -->
+                                <Grid>
+                                    <Image Source="{Binding PhotoPath}"
+                                           Height="210" Margin="16,16,16,0"
+                                           Stretch="UniformToFill"/>
+
+                                    <!-- бейдж скидки -->
+                                    <Border Background="{StaticResource bDanger}"
+                                            CornerRadius="10"
+                                            Padding="6,2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="0,16,16,0">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasActiveDiscount}"
+                                                                 Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                        <TextBlock Text="{Binding DiscountPercent,
+                                                  StringFormat='-{0}%'}"
+                                                   Foreground="White"
+                                                   FontWeight="Bold"
+                                                   FontSize="12"/>
+                                    </Border>
+                                </Grid>
+
+                                <!-- текст -->
                                 <StackPanel Margin="16,10,16,16">
-                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding CategoryName}" FontStyle="Italic" Foreground="Gray"/>
-                                    <TextBlock Text="{Binding Price, StringFormat=Цена: {0:0.00} ₽}" Margin="0,4,0,0"/>
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="16"
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CategoryName}"
+                                               FontStyle="Italic"
+                                               Foreground="Gray"/>
+
+                                    <!-- блок цен -->
+                                    <StackPanel Margin="0,4,0,0">
+
+                                        <!-- обычная цена -->
+                                        <TextBlock Text="{Binding Price,
+                                                  StringFormat=Цена: {0:0.00} ₽}"
+                                                   FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasActiveDiscount}"
+                                                                     Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <!-- старая цена -->
+                                        <TextBlock Text="{Binding Price,
+                                                  StringFormat=Цена: {0:0.00} ₽}"
+                                                   Foreground="Gray"
+                                                   TextDecorations="Strikethrough">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasActiveDiscount}"
+                                                                     Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <!-- новая цена -->
+                                        <TextBlock Text="{Binding DiscountedPrice,
+                                                  StringFormat=Со скидкой: {0:0.00} ₽}"
+                                                   Foreground="{StaticResource bGreen}"
+                                                   FontWeight="Bold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasActiveDiscount}"
+                                                                     Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <!-- описание скидки -->
+                                        <TextBlock Text="{Binding DiscountDescription}"
+                                                   FontStyle="Italic"
+                                                   FontSize="11"
+                                                   Foreground="Gray"
+                                                   TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasActiveDiscount}"
+                                                                     Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <!-- кнопки -->
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="0,10,0,0">
                                         <Button Content="Редактировать"
                                                 Style="{StaticResource CardBtnGreen}"
-                                                Tag="{Binding}" Click="EditPlant_Click"/>
+                                                Tag="{Binding}"
+                                                Click="EditPlant_Click"/>
                                         <Button Content="Удалить"
                                                 Style="{StaticResource CardBtnRed}"
                                                 Margin="8,0,0,0"
-                                                Tag="{Binding}" Click="DeletePlant_Click"/>
+                                                Tag="{Binding}"
+                                                Click="DeletePlant_Click"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -222,7 +356,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <!-- Bottom -->
+        <!--========== BOTTOM ==========-->
         <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -232,7 +366,8 @@
             <TextBlock x:Name="CountRecords"
                        VerticalAlignment="Center"/>
 
-            <Button x:Name="bCreatePlant" Grid.Column="1"
+            <Button x:Name="bCreatePlant"
+                    Grid.Column="1"
                     Content="Добавить растение"
                     Style="{StaticResource StyledBtn}"
                     HorizontalAlignment="Right"
