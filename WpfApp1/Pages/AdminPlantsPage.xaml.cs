@@ -273,11 +273,11 @@ namespace WpfApp1.Pages
             NavigationService.Navigate(new PersonalAccountPage());
         }
 
-        private void GoToDiscounts_Click(object sender, MouseButtonEventArgs e)
+        private void GoToDiscounts_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new DiscountsPage());
         }
-        private void GoToOrders_Click(object sender, MouseButtonEventArgs e)
+        private void GoToOrders_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new OrdersPage());
         }
