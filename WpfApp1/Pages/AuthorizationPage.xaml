@@ -6,14 +6,19 @@
       mc:Ignorable="d"
       Title="AuthorizationPage">
 
+    <!-- ──────────  RESOURCES  ────────── -->
     <Page.Resources>
-        <!-- Стиль для скруглённого TextBox -->
+
+        <!-- Скруглённый TextBox -->
         <Style TargetType="TextBox" x:Key="RoundedTextBox">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="6"/>
-            <Setter Property="Margin" Value="0,4,0,8"/>
+            <Setter Property="OverridesDefaultStyle"   Value="True"/>
+            <Setter Property="FontSize"                Value="14"/>
+            <Setter Property="Padding"                 Value="6"/>
+            <Setter Property="Margin"                  Value="0,4,0,8"/>
+            <Setter Property="Background"              Value="#F1F5F2"/>
+            <Setter Property="BorderBrush"             Value="#CED4DA"/>
+            <Setter Property="BorderThickness"         Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -21,23 +26,23 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="6">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Background" Value="#F1F5F2"/>
-            <Setter Property="BorderBrush" Value="#CED4DA"/>
-            <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
-        <!-- Стиль для PasswordBox -->
+        <!-- Скруглённый PasswordBox -->
         <Style TargetType="PasswordBox" x:Key="RoundedPasswordBox">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Padding" Value="6"/>
-            <Setter Property="Margin" Value="0,4,0,8"/>
+            <Setter Property="OverridesDefaultStyle"   Value="True"/>
+            <Setter Property="FontSize"                Value="14"/>
+            <Setter Property="Padding"                 Value="6"/>
+            <Setter Property="Margin"                  Value="0,4,0,8"/>
+            <Setter Property="Background"              Value="#F1F5F2"/>
+            <Setter Property="BorderBrush"             Value="#CED4DA"/>
+            <Setter Property="BorderThickness"         Value="1"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="PasswordBox">
@@ -45,30 +50,26 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="6">
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Background" Value="#F1F5F2"/>
-            <Setter Property="BorderBrush" Value="#CED4DA"/>
-            <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
-        <!-- Стиль для кнопок -->
+        <!-- Кнопки -->
         <Style x:Key="StyledButton" TargetType="Button">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Height"            Value="40"/>
+            <Setter Property="Foreground"        Value="White"/>
+            <Setter Property="FontWeight"        Value="SemiBold"/>
+            <Setter Property="FontSize"          Value="16"/>
+            <Setter Property="BorderThickness"   Value="0"/>
+            <Setter Property="Cursor"            Value="Hand"/>
+            <Setter Property="Margin"            Value="0,0,0,10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="8">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
@@ -84,9 +85,15 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Page.Resources>
 
-    <Grid Background="#F5F9F3">
+    <!-- ──────────  LAYOUT  ────────── -->
+    <Grid Background="#F5F9F3"
+          UseLayoutRounding="True"
+          TextOptions.TextFormattingMode="Display"
+          TextOptions.TextRenderingMode="ClearType">
+
         <Border Width="300"
                 Padding="20"
                 CornerRadius="20"
@@ -95,14 +102,24 @@
                 VerticalAlignment="Center"
                 BorderBrush="#E0E0E0"
                 BorderThickness="1">
+            <Border.Effect>
+                <!-- Жёсткая тень без размытия -->
+                <DropShadowEffect BlurRadius="0"
+                                  ShadowDepth="4"
+                                  Opacity="0.4"
+                                  Color="#2D6A4F"/>
+            </Border.Effect>
+
             <StackPanel>
+
+                <!-- Логотип -->
                 <Image Source="/Images/GrowzyLogo.png"
-                       Width="80"
-                       Height="80"
+                       Width="80" Height="80"
                        Margin="0,0,0,10"
                        HorizontalAlignment="Center"
                        RenderOptions.BitmapScalingMode="HighQuality"/>
 
+                <!-- Заголовок -->
                 <TextBlock Text="Авторизация"
                            FontSize="22"
                            FontWeight="Bold"
@@ -112,23 +129,22 @@
 
                 <!-- Логин -->
                 <TextBlock Text="Логин" Foreground="Black"/>
-                <TextBox x:Name="tbLogin" Style="{StaticResource RoundedTextBox}"/>
+                <TextBox x:Name="tbLogin"
+                         Style="{StaticResource RoundedTextBox}"/>
 
                 <!-- Пароль -->
                 <TextBlock Text="Пароль" Foreground="Black"/>
                 <Grid>
                     <PasswordBox x:Name="tbPassword"
-                                 Style="{StaticResource RoundedPasswordBox}"
-                                 Visibility="Visible"
-                                 Width="Auto"/>
+                 Style="{StaticResource RoundedPasswordBox}"
+                 PasswordChar="●"/>
 
-                    <TextBox x:Name="tbVisiblePwd"
-                             Style="{StaticResource RoundedTextBox}"
-                             Visibility="Collapsed"
-                             Width="Auto"/>
+                    <TextBox     x:Name="tbVisiblePwd"
+                 Style="{StaticResource RoundedTextBox}"
+                 Visibility="Collapsed"/>
                 </Grid>
 
-                <!-- Показать пароль -->
+                <!-- Checkbox -->
                 <CheckBox Content="Показать пароль"
                           Margin="0,5,0,15"
                           Checked="ShowPassword_Checked"
