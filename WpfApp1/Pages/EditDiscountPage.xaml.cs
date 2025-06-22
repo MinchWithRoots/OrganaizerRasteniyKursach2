@@ -38,7 +38,7 @@ namespace WpfApp1.Pages
                 tbDiscountPercent.Text = discount.discount_percent.ToString();
                 dpStart.SelectedDate = discount.start_date;
                 dpEnd.SelectedDate = discount.end_date;
-                tbColor.Text = discount.color;
+              
                 tbDescription.Text = discount.description;
                 cbPlants.SelectedValue = discount.plant_id;
             }
@@ -61,7 +61,7 @@ namespace WpfApp1.Pages
                     _currentDiscount.discount_percent = discountPercent;
                     _currentDiscount.start_date = dpStart.SelectedDate ?? DateTime.Now;
                     _currentDiscount.end_date = dpEnd.SelectedDate ?? DateTime.Now;
-                    _currentDiscount.color = tbColor.Text;
+                   
                     _currentDiscount.description = tbDescription.Text;
 
                     AppConnect.OrganayzerRasteniyModel.SaveChanges();
@@ -75,7 +75,7 @@ namespace WpfApp1.Pages
                         discount_percent = discountPercent,
                         start_date = dpStart.SelectedDate ?? DateTime.Now,
                         end_date = dpEnd.SelectedDate ?? DateTime.Now,
-                        color = tbColor.Text,
+                       
                         description = tbDescription.Text
                     };
                     AppConnect.OrganayzerRasteniyModel.Discounts.Add(newDiscount);
