@@ -36,6 +36,32 @@
             </Setter>
         </Style>
 
+        <Style x:Key="RoundedButtonTemplate" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                        CornerRadius="8"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+            <DropShadowEffect x:Key="DropShadow"
+                      BlurRadius="8"
+                      ShadowDepth="3"
+                      Opacity="0.3"
+                      Direction="270"/>
+     
+
+
+
     </Application.Resources>
 
 </Application>

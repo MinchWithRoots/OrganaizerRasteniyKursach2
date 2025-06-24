@@ -52,5 +52,10 @@ namespace WpfApp1.Pages
             public string PlantName { get; set; }
             public string NotificationMessage { get; set; }
         }
+
+        private void BackButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new UserPlantsPage());
+        }
     }
 }

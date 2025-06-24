@@ -1,124 +1,150 @@
 ﻿<Page x:Class="WpfApp1.Pages.UserGardenPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      Title="Мои растения">
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="UserGardenPage"
+      Background="#F5F9F3"
+      UseLayoutRounding="True"
+      TextOptions.TextFormattingMode="Display"
+      TextOptions.TextRenderingMode="ClearType">
 
-    <Grid Background="White">
+    <Page.Resources>
+        <!-- Зеленая кнопка с закруглениями -->
+        <Style x:Key="GreenButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Тень карточки -->
+        <DropShadowEffect x:Key="CardShadow"
+                          ShadowDepth="4"
+                          BlurRadius="2"
+                          Color="#4CAF50"
+                          Direction="270"/>
+    </Page.Resources>
+
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Row 0: верхняя панель с фильтрами и уведомлениями -->
-        <DockPanel Grid.Row="0" Margin="10">
-
-            <!-- Левая часть — фильтры, поиск, “Добавить растение” -->
-            <StackPanel DockPanel.Dock="Left"
-                Orientation="Horizontal"
-                VerticalAlignment="Center">
+        <!-- Верхняя панель -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,20" VerticalAlignment="Top">
+            <!-- Левая часть -->
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
                 <ComboBox x:Name="ComboFilter"
-                  Width="160" Height="23" Margin="5"
-                  SelectionChanged="ComboFilter_SelectionChanged"/>
+                          Width="150" Height="32" Margin="5"
+                          Padding="5"
+                          VerticalContentAlignment="Center"
+                          FontSize="14"
+                          BorderThickness="0"
+                          CornerRadius="8"
+                          SelectionChanged="ComboFilter_SelectionChanged"/>
                 <ComboBox x:Name="ComboSort"
-                  Width="160" Height="23" Margin="5"
-                  SelectionChanged="ComboSort_SelectionChanged">
+                          Width="150" Height="32" Margin="5"
+                          Padding="5"
+                          VerticalContentAlignment="Center"
+                          FontSize="14"
+                          BorderThickness="0"
+                          CornerRadius="8"
+                          SelectionChanged="ComboSort_SelectionChanged">
                     <ComboBoxItem Content="Название А-Я"/>
                     <ComboBoxItem Content="Название Я-А"/>
                     <ComboBoxItem Content="Дата ухода ↑"/>
                     <ComboBoxItem Content="Дата ухода ↓"/>
                 </ComboBox>
-                <TextBox  x:Name="TextSearch"
-                  Width="200" Height="23" Margin="5"
-                  TextChanged="TextSearch_TextChanged"/>
-
-                <Button  x:Name="bCreatePlant"
-                 Content="➕ Добавить растение"
-                 Background="#4CAF50"
-                 Foreground="White"
-                 Padding="10,2"
-                 Margin="10,0,0,0"
-                 Height="35"
-                 Click="bCreatePlant_Click"/>
+                <TextBox x:Name="TextSearch"
+                         Width="200" Height="32" Margin="5"
+                         Padding="5"
+                         FontSize="14"
+                         VerticalContentAlignment="Center"
+                         TextChanged="TextSearch_TextChanged"/>
+                <Button x:Name="bCreatePlant"
+                        Content="➕ Добавить растение"
+                        Style="{StaticResource GreenButtonStyle}"
+                        Margin="10,0,0,0"
+                        Height="32"
+                        Click="bCreatePlant_Click"/>
             </StackPanel>
 
-            <!-- Правая часть — уведомления -->
+            <!-- Уведомления -->
             <StackPanel DockPanel.Dock="Right"
-                Orientation="Vertical"
-                Cursor="Hand"
-                VerticalAlignment="Center"
-                MouseDown="GoToNotifications_Click">
+                        Orientation="Vertical"
+                        Cursor="Hand"
+                        VerticalAlignment="Top"
+                        Margin="10,0,0,0"
+                        MouseDown="GoToNotifications_Click">
                 <TextBlock Text="🔔"
-                   FontSize="32"
-                   HorizontalAlignment="Center"/>
+                           FontSize="28"
+                           HorizontalAlignment="Center"/>
                 <TextBlock Text="Уведомления"
-                   FontSize="12"
-                   FontWeight="SemiBold"
-                   Foreground="Black"
-                   HorizontalAlignment="Center"
-                   Margin="0,4,0,0"/>
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"/>
             </StackPanel>
         </DockPanel>
 
-
         <!-- Список растений -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl x:Name="ListUserPlants" Margin="0">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="ListUserPlants">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True"
-                           Orientation="Horizontal"
-                           HorizontalAlignment="Center"
-                           Margin="0"
-                           ItemWidth="290"
-                           ItemHeight="Auto"/>
+                        <WrapPanel Orientation="Horizontal"
+                                   HorizontalAlignment="Center"
+                                   ItemWidth="280"
+                                   ItemHeight="Auto"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Width="270" Margin="10"
-                        BorderBrush="#DDD"
-                        BorderThickness="1"
-                        Padding="10">
+                        <Border Background="White"
+                                CornerRadius="10"
+                                Margin="10"
+                                Padding="10"
+                                Width="270"
+                                Effect="{StaticResource CardShadow}">
                             <StackPanel>
-                                <Image Source="{Binding PhotoPath}" Height="120" Width="250" Stretch="UniformToFill"/>
-                                <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding CategoryName}" FontStyle="Italic" Foreground="Gray" Margin="0,5,0,0"/>
-                                <TextBlock FontSize="12" Foreground="DarkSlateGray" Margin="0,5,0,0">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PurchaseDate}" Value="{x:Null}">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding PurchaseDate}">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                    <TextBlock.Text>
-                                        <Binding Path="PurchaseDate" StringFormat="Посажено: {0:dd.MM.yyyy}"/>
-                                    </TextBlock.Text>
-                                </TextBlock>
+                                <Image Source="{Binding PhotoPath}"
+                                       Height="120" Width="250"
+                                       Stretch="UniformToFill"
+                                       Margin="0,0,0,10"/>
+                                <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" Margin="0,2"/>
+                                <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding CategoryName}" FontStyle="Italic" Foreground="Gray" FontSize="12"/>
 
-                                <TextBlock Text="{Binding LastCareDate, StringFormat=Уход: dd.MM.yyyy}" FontSize="12" Foreground="DarkSlateGray" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding CareSchedule}" FontSize="12" Foreground="Green" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Notes}" FontSize="12" Foreground="Red" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding MinTemp, StringFormat=Мин. темп.: {0}°C}" FontSize="12" Foreground="Blue" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding MaxTemp, StringFormat=Макс. темп.: {0}°C}" FontSize="12" Foreground="Blue" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding WateringAmount, StringFormat=Полив: {0} мл}" FontSize="12" Foreground="Brown" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding FertilizerName, StringFormat=Удобрение: {0}}" FontSize="12" Foreground="Green" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding FertilizerDosage, StringFormat=Дозировка: {0} мл}" FontSize="12" Foreground="Green" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding LightingLevel, StringFormat=Освещение: {0}}" FontSize="12" Foreground="Orange" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding PurchaseDate, StringFormat=Посажено: {0:dd.MM.yyyy}}" FontSize="12" Foreground="DarkSlateGray"/>
+                                <TextBlock Text="{Binding LastCareDate, StringFormat=Уход: {0:dd.MM.yyyy}}" FontSize="12" Foreground="DarkSlateGray"/>
+                                <TextBlock Text="{Binding CareSchedule}" FontSize="12" Foreground="Green"/>
+                                <TextBlock Text="{Binding Notes}" FontSize="12" Foreground="Red"/>
+                                <TextBlock Text="{Binding MinTemp, StringFormat=Мин. темп.: {0}°C}" FontSize="12" Foreground="Blue"/>
+                                <TextBlock Text="{Binding MaxTemp, StringFormat=Макс. темп.: {0}°C}" FontSize="12" Foreground="Blue"/>
+                                <TextBlock Text="{Binding WateringAmount, StringFormat=Полив: {0} мл}" FontSize="12" Foreground="Brown"/>
+                                <TextBlock Text="{Binding FertilizerName, StringFormat=Удобрение: {0}}" FontSize="12" Foreground="Green"/>
+                                <TextBlock Text="{Binding FertilizerDosage, StringFormat=Дозировка: {0} мл}" FontSize="12" Foreground="Green"/>
+                                <TextBlock Text="{Binding LightingLevel, StringFormat=Освещение: {0}}" FontSize="12" Foreground="Orange"/>
 
                                 <!-- Искусственное освещение -->
-                                <TextBlock Text="Искусственное освещение: Да"
-                                           FontSize="12" Foreground="Orange" Margin="0,5,0,0"
-                                           Visibility="Collapsed">
+                                <TextBlock Text="Искусственное освещение: Да" FontSize="12" Foreground="Orange" Visibility="Collapsed">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Style.Triggers>
@@ -130,11 +156,10 @@
                                     </TextBlock.Style>
                                 </TextBlock>
 
-                                <!-- Комната (скрытие если null/пусто) -->
-                                <TextBlock FontSize="12" Foreground="Black" Margin="0,5,0,0">
+                                <!-- Комната -->
+                                <TextBlock Text="{Binding RoomName, StringFormat=Комната: {0}}" FontSize="12" Foreground="Black" Visibility="Collapsed">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding RoomName}" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -148,18 +173,12 @@
                                             </Style.Triggers>
                                         </Style>
                                     </TextBlock.Style>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Комната: {0}">
-                                            <Binding Path="RoomName"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
                                 </TextBlock>
 
-                                <!-- Окно (скрытие если null/пусто) -->
-                                <TextBlock FontSize="12" Foreground="Black" Margin="0,5,0,0">
+                                <!-- Окно -->
+                                <TextBlock Text="{Binding WindowPosition, StringFormat=Окно: {0}}" FontSize="12" Foreground="Black" Visibility="Collapsed">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding WindowPosition}" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -173,19 +192,23 @@
                                             </Style.Triggers>
                                         </Style>
                                     </TextBlock.Style>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="Окно: {0}">
-                                            <Binding Path="WindowPosition"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
                                 </TextBlock>
 
                                 <!-- Кнопки -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                                    <Button Content="Редактировать" Background="LightBlue" Foreground="White"
-                                            Padding="10,2" Click="EditUserPlant_Click" Tag="{Binding}" Margin="0,0,10,0"/>
-                                    <Button Content="Удалить" Background="Red" Foreground="White"
-                                            Padding="10,2" Click="DeleteUserPlant_Click" Tag="{Binding}"/>
+                                    <Button Content="Редактировать"
+                                            Background="LightBlue"
+                                            Foreground="White"
+                                            Padding="10,2"
+                                            Margin="0,0,10,0"
+                                            Click="EditUserPlant_Click"
+                                            Tag="{Binding}"/>
+                                    <Button Content="Удалить"
+                                            Background="Red"
+                                            Foreground="White"
+                                            Padding="10,2"
+                                            Click="DeleteUserPlant_Click"
+                                            Tag="{Binding}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -195,8 +218,14 @@
         </ScrollViewer>
 
         <!-- Нижняя панель -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10" Grid.Row="2">
-            <TextBlock x:Name="CountRecords" VerticalAlignment="Center" Margin="10,0"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,10"
+                    Grid.Row="2">
+            <TextBlock x:Name="CountRecords"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
         </StackPanel>
     </Grid>
 </Page>

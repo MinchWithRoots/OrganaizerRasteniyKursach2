@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,8 +74,20 @@ namespace WpfApp1.Pages
                 .OrderByDescending(p => p.upload_date)
                 .FirstOrDefault();
 
-            return photo?.photo_path ?? "/Images/no-image.png";
+            if (photo != null && !string.IsNullOrEmpty(photo.photo_path))
+            {
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, photo.photo_path.TrimStart('/'));
+                if (File.Exists(fullPath))
+                    return fullPath;
+            }
+
+            // fallback
+            string defaultImagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "no-image.png");
+            return File.Exists(defaultImagePath)
+                ? defaultImagePath
+                : "pack://application:,,,/Images/no-image.jpg";
         }
+
 
         private void Increase_Click(object sender, RoutedEventArgs e)
         {

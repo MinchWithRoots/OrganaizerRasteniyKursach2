@@ -1,65 +1,131 @@
 ﻿<Page x:Class="WpfApp1.Pages.UserOrdersPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Мои заказы">
+      Title="UserOrdersPage"
+      Background="#F5F9F3"
+      UseLayoutRounding="True"
+      TextOptions.TextFormattingMode="Display"
+      TextOptions.TextRenderingMode="ClearType">
 
-    <Grid Background="White">
+    <Page.Resources>
+        <!-- Тень -->
+        <DropShadowEffect x:Key="HardShadow"
+                          BlurRadius="0"
+                          ShadowDepth="4"
+                          Opacity="0.4"
+                          Color="#2D6A4F"/>
+
+        <!-- Стиль кнопки -->
+        <Style x:Key="RoundedGreenButton" TargetType="Button">
+            <Setter Property="Background" Value="#2D6A4F"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Margin="20" Grid.Row="0">
+        <!-- Шапка с заголовком и кнопкой -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
             <TextBlock Text="Мои заказы"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   DockPanel.Dock="Left"/>
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="#2D6A4F"
+                       VerticalAlignment="Center"
+                       Grid.Column="0"/>
 
-            <Button Content="Назад в каталог"
-                Background="#607D8B"
-                Foreground="White"
-                Padding="8,4"
-                Margin="15,0,0,0"
-                Click="BackToCatalog_Click"
-                DockPanel.Dock="Right"/>
-        </DockPanel>
+            <Button Content="← Назад в каталог"
+                    Style="{StaticResource RoundedGreenButton}"
+                    Width="160"
+                    Height="36"
+                    Click="BackToCatalog_Click"
+                    Grid.Column="1"/>
+        </Grid>
 
-        <ScrollViewer Grid.Row="1">
-            <ItemsControl x:Name="ListOrders" Margin="20">
+        <!-- Список заказов -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="ListOrders" HorizontalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical"
+                                   IsItemsHost="True"
+                                   HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="#DDD" BorderThickness="1" Margin="0 0 0 15" Padding="10">
+                        <Border Width="700"
+                                Margin="10"
+                                Padding="20"
+                                Background="White"
+                                CornerRadius="16"
+                                Effect="{StaticResource HardShadow}"
+                                SnapsToDevicePixels="True">
                             <StackPanel>
-                                <!-- шапка -->
-                                <StackPanel Orientation="Horizontal">
+                                <!-- Инфо -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
                                     <TextBlock Text="Заказ №" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding OrderId}" Margin="2,0"/>
-                                    <TextBlock Margin="10,0"
+                                    <TextBlock Text="{Binding OrderId}" Margin="4,0"/>
+                                    <TextBlock Text="{Binding OrderDate, StringFormat='от {0:dd.MM.yyyy HH:mm}'}"
                                                Foreground="Gray"
-                                               Text="{Binding OrderDate, StringFormat='от {0:dd.MM.yyyy HH:mm}'}"/>
-                                    <TextBlock Margin="15,0"
-                                               Foreground="Blue"
-                                               Text="{Binding Status}"/>
+                                               Margin="12,0"/>
+                                    <TextBlock Text="{Binding Status}"
+                                               Foreground="#0b5ed7"
+                                               FontWeight="SemiBold"
+                                               Margin="12,0"/>
                                 </StackPanel>
 
-                                <!-- сумма -->
-                                <TextBlock Margin="0,5"
-                                           FontSize="14"
+                                <TextBlock FontSize="14"
                                            FontWeight="SemiBold"
-                                           Text="{Binding TotalAmount, StringFormat='Сумма: {0:N2} ₽'}"/>
+                                           Text="{Binding TotalAmount, StringFormat='Сумма: {0:N2} ₽'}"
+                                           Margin="0,0,0,12"/>
 
-                                <!-- позиции -->
+                                <!-- Состав заказа -->
                                 <ItemsControl ItemsSource="{Binding Items}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock FontSize="12">
-                                                <Run Text="• "/>
-                                                <Run Text="{Binding Name}"/>
-                                                <Run Text=" × "/>
-                                                <Run Text="{Binding Qty}"/>
-                                                <Run Text=" — "/>
-                                                <Run Text="{Binding Sum, StringFormat={}{0:N2} ₽}"/>
-                                            </TextBlock>
+                                            <Border Background="#F5F9F3"
+                                                    CornerRadius="8"
+                                                    Padding="10"
+                                                    Margin="0,0,0,8"
+                                                    BorderBrush="#E0E0E0"
+                                                    BorderThickness="1">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="13">
+                                                        <Run Text="{Binding Name}"/>
+                                                        <Run Text=" × "/>
+                                                        <Run Text="{Binding Qty}"/>
+                                                        <Run Text=" — "/>
+                                                        <Run Text="{Binding Sum, StringFormat={}{0:N2} ₽}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
